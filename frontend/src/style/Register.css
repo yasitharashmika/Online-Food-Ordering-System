@@ -1,0 +1,91 @@
+.page-content {
+  padding: 40px 0;
+  background-color: #fff9f0; /* Matches your app background */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  /* Bootstrap handles max-width (1200px at xl breakpoint) */
+}
+
+.register-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 1rem;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff5722; /* Matches --primary for consistency */
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e64a19; /* Darker shade on hover */
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-link p {
+  font-size: 1rem;
+  color: #666666;
+}
+
+.login-text {
+  color: #ff5722; /* Matches --primary */
+  text-decoration: none;
+}
+
+.login-text:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #d32f2f; /* Red for error */
+  font-size: 1rem;
+  margin: 10px 0;
+  text-align: center;
+}
+
+/* CSS Variables */
+:root {
+  --primary: #ff5722;
+}
