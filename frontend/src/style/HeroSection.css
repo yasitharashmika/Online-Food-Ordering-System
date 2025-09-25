@@ -1,69 +1,84 @@
 .hero-section {
+  
   padding: 40px 0;
-  background-color: #fff9f0;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  /*background: rgb(0, 0, 0) !important;*/
+  color: var(--text-light);
+  border-radius: 25px;
 }
 
 .section-title h2 {
-  font-size: 4rem;
-  margin-bottom: 15px;
+  font-size: 3rem;
+  font-family: 'Brusher', cursive;
   font-weight: bold;
+  color: #d1ae00 !important; /* changed from var(--accent) */
+  margin-bottom: 15px;
 }
 
 .section-title p {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  
+  color: #ffffffc4 !important; /* changed from var(--text-muted) */
 }
 
+
+
 .card {
-  border: none;
-  border-radius: 8px;
-  overflow: hidden;
   
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 .carousel-item img {
+  
   object-fit: cover;
+
 }
 
 .carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 15px;
   top: 50%;
   transform: translateY(-50%);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
 }
 
 .carousel-caption h2 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
+  color: var(--text-light);
 }
 
 .carousel-caption .btn {
   padding: 10px 20px;
   font-weight: 500;
+  border-radius: 30px;
+  transition: all 0.3s ease;
 }
 
-/* Override Bootstrap button styles with maximum specificity */
-.hero-section .carousel-caption .btn.btn-primary {
-  background-color: #ee1212 !important; /* Vibrant orange */
-  border-color:  #ffffff !important;
-  color: #ffffff !important;
+.hero-section .btn.btn-primary {
+  background-color:#e56d0d !important;
+  border: none !important;
+  color: var(--text-light) !important;
+  
 }
 
-.hero-section .carousel-caption .btn.btn-primary:hover {
-  background-color: #f83636ee !important; /* Darker orange on hover */
-  border-color: #ffffff !important;
+.hero-section .btn.btn-primary:hover {
+  background-color: #f47107 !important;
+  transform: scale(1.05);
 }
 
-.hero-section .carousel-caption .btn.btn-outline-light {
-  background-color: #ff5722 !important;
-  border-color: #ffffff !important;
-  color: #ffffff !important;
+.hero-section .btn.btn-outline-light {
+  background-color: transparent !important;
+  border: 2px solid var(--text-light) !important;
+  color: var(--text-light) !important;
 }
 
-.hero-section .carousel-caption .btn.btn-outline-light:hover {
-  background-color: #e64a19 !important; /* White background on hover */
-  color: #f3f3f3 !important; /* Orange text on hover */
-  border-color: #ffffff !important;
-}
-
-.btn-outline-light {
-  border-color: #fff;
+.hero-section .btn.btn-outline-light:hover {
+  background-color: var(--text-light) !important;
+  color: var(--primary-bg) !important;
+  transform: scale(1.05);
 }

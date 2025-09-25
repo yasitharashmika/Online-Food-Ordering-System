@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,  } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import BookTable from './pages/BookTable';
 import TrackOrder from './pages/TrackOrder';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import Footer from './components/Footer';
-
+import About from './pages/About';
 
 
 
@@ -24,7 +23,7 @@ function App() {
           <Route path="/book-table" element={<BookTable />} />
           <Route path="/track-order" element={<TrackOrder />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/Register" element={<Register />} />
+          <Route path="/about-us" element={<About />} />
         </Routes>
         <Footer />
       </div>

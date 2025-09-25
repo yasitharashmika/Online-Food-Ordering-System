@@ -1,0 +1,123 @@
+:root {
+    --primary-bg: #0d0d0d;
+    --accent: #ff7f11;
+    --text-light: #f4f4f4;
+    --text-muted: #b3b3b3;
+    --font-main: 'Poppins', sans-serif;
+  }
+  
+  .navbar {
+    background: var(--primary-bg);
+    color: var(--text-light);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    font-family: var(--font-main);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    border: #0d0d0d;
+  }
+  
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .logo img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .brand-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  
+  .nav-links ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  
+  .nav-links ul li a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .nav-links ul li a:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+  
+  /* Right side */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .user-profile svg {
+    stroke: var(--text-light);
+    transition: stroke 0.3s ease, transform 0.2s ease;
+  }
+  
+  .user-profile:hover svg {
+    stroke: var(--accent);
+    transform: scale(1.1);
+  }
+  
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+  }
+  
+  .bar {
+    width: 25px;
+    height: 3px;
+    background: var(--text-light);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: absolute;
+      top: 70px;
+      right: -100%;
+      background: var(--primary-bg);
+      width: 100%;
+      height: calc(100vh - 70px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: right 0.3s ease;
+    }
+  
+    .nav-links ul {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  
+    .nav-links.nav-active {
+      right: 0;
+    }
+  
+    .hamburger {
+      display: flex;
+    }
+  }
+  

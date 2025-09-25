@@ -1,8 +1,6 @@
 import React from 'react';
 import '../style/HotDeals.css'; // Relative path to CSS
-import { Form, Link } from 'react-router-dom';
-import img1 from '../assets/Spicy Chicken Combo.jpg';
-
+import { Link } from 'react-router-dom';
 
 function HotDeals() {
   const deals = [
@@ -10,7 +8,7 @@ function HotDeals() {
       id: 1,
       title: 'Spicy Chicken Combo',
       description: 'Juicy chicken with fries and a drink - 20% off!',
-      image: img1,
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGZvb2QlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww&auto=format&fit=crop&w=300&q=80',
       link: '/menu',
     },
     {

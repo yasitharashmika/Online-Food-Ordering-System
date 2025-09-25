@@ -1,154 +1,160 @@
-.page-content {
-  padding: 40px 0;
-  background-color: #fff9f0; /* Matches your app background */
-  min-height: 100vh;
+:root {
+  --yellow: #ffcc00;
+  --yellow-dark: #ffb300;
+  --card-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* Full background */
+.login-wrapper {
   display: flex;
+  justify-content: center;
   align-items: center;
+  height: 100vh;
+  background: url("food composition.jpg") no-repeat center center/cover;
+  position: relative;
 }
 
-.container {
-  /* Bootstrap handles max-width (1200px at xl breakpoint) */
+/* Dark overlay */
+.login-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
 }
 
-.section-title {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.section-title h2 {
-  font-size: 2.5rem;
-  color: #333333;
-  margin-bottom: 10px;
-}
-
-.section-title p {
-  font-size: 1.2rem;
-  color: #666666;
-}
-
-.login-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.card h3 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  color: #333333;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 1rem;
-  color: #333333;
-  margin-bottom: 5px;
-}
-
-.form-group input {
+/* Card */
+.login-card {
+  position: relative;
+  background: var(--card-bg);
+  padding: 40px 30px;
+  border-radius: 16px;
+  max-width: 400px;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  z-index: 1;
+  color: #fff;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.login-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 25px;
+}
+
+/* Toggle buttons */
+.toggle-btns {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.toggle-btns .btn {
+  padding: 10px 25px;
+  border-radius: 25px;
+  border: 1px solid #444;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.toggle-btns .btn.active {
+  background: linear-gradient(135deg, var(--yellow), var(--yellow-dark));
+  color: #000;
+  border: none;
+}
+
+/* Inputs with icons */
+.input-with-icon {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-with-icon i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+.input-with-icon .toggle-password {
+  right: 12px;
+  left: auto;
+  cursor: pointer;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 12px 40px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-with-icon input::placeholder {
+  color: #aaa;
+}
+
+/* Remember + Forgot */
 .remember-forgot {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  font-size: 0.9rem;
   margin-bottom: 20px;
 }
 
-.remember-forgot label {
-  font-size: 1rem;
-  color: #666666;
-  margin-left: 5px;
+.remember-forgot input {
+  accent-color: var(--yellow);
 }
 
 .forgot-password {
-  color: #ff5722; /* Matches --primary */
+  color: var(--yellow);
   text-decoration: none;
-  font-size: 1rem;
 }
 
 .forgot-password:hover {
   text-decoration: underline;
 }
 
+/* Login button */
 .login-btn {
   width: 100%;
-  padding: 10px;
-  background-color: #363231; /* Matches --primary */
+  padding: 12px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, var(--yellow), var(--yellow-dark));
   border: none;
-  border-radius: 5px;
-  color: #ffffff;
+  color: #000;
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .login-btn:hover {
-  background-color: #4e4542; /* Darker shade on hover */
+  transform: translateY(-2px);
 }
 
-.signup-link {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.signup-link p {
-  font-size: 1rem;
-  color: #666666;
-}
-
-.signup-text {
-  color: #ff5722; /* Matches --primary */
-  text-decoration: none;
-}
-
-.signup-text:hover {
-  text-decoration: underline;
-}
-
-.security-note {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #e8f5e9;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.security-note p {
-  font-size: 1rem;
-  color: #2e7d32; /* Matches --success (green) */
-  margin: 0;
-}
-
-.security-note i {
-  margin-right: 5px;
-}
+/* Error message */
 .error-message {
-  color: #d32f2f; /* Red for error */
-  font-size: 1rem;
-  margin: 10px 0;
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff4d4d;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
   text-align: center;
-}
-
-/* CSS Variables */
-:root {
-  --primary: #ff5722;
-  --success: #2e7d32;
 }
