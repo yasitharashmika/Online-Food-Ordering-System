@@ -1,7 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import HotDeals from '../components/HotDeals';
-import '../style/Home.css'; 
+import '../style/Home.css'; // Add CSS file for custom styles
 import AboutSection from '../components/AboutSection';
 import CustomerReviews from '../components/CustomerReviews';
 

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import "../style/Login.css";
-import { Link, useNavigate } from "react-router-dom";
+import "../style/Login.css"; // reuse same styles
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Signup() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,19 +14,18 @@ function Login() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/login", {
+      const response = await fetch("http://localhost:8080/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        navigate("/");
+        alert("Account created successfully! Please login.");
+        navigate("/login");
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Login failed. Please try again.");
+        setError(errorData.message || "Signup failed. Try again.");
       }
     } catch (err) {
       setError("An error occurred. Please check your network.");
@@ -35,23 +35,29 @@ function Login() {
   return (
     <div className="login-wrapper">
       <div className="login-card">
-        <h2 className="login-title">Sign In</h2>
-        <p className="login-subtitle">We Are Happy To See You Again</p>
-
-        <div className="toggle-btns">
-            <button className="btn active">Sign In</button>
-            <button className="btn" onClick={() => navigate("/signup")}>Sign Up</button>
-        </div>
-
+        <h2 className="login-title">Sign Up</h2>
+        <p className="login-subtitle">Create your account</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group input-with-icon">
-            <i className="fas fa-envelope"></i>
+            <i className="fas fa-user"></i>
             <input
               type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group input-with-icon">
+            <i className="fas fa-envelope"></i>
+            <input
+              type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -62,23 +68,14 @@ function Login() {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
-            <i className="fas fa-eye toggle-password"></i>
-          </div>
-
-          <div className="remember-forgot">
-            <label>
-              <input type="checkbox" /> Remember me
-            </label>
-            <Link to="#" className="forgot-password">
-              Forgot Password?
-            </Link>
           </div>
 
           {error && <p className="error-message">{error}</p>}
 
           <button type="submit" className="btn login-btn">
-            Login
+            Sign Up
           </button>
         </form>
       </div>
@@ -86,4 +83,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
