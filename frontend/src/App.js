@@ -9,6 +9,7 @@ import TrackOrder from './pages/TrackOrder';
 import Login from './pages/Login';
 import Footer from './components/Footer';
 import About from './pages/About';
+import Signup from './pages/SignUp';
 
 
 
@@ -24,6 +25,8 @@ function App() {
           <Route path="/track-order" element={<TrackOrder />} />
           <Route path="/login" element={<Login />} />
           <Route path="/about-us" element={<About />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<About />} />
         </Routes>
         <Footer />
       </div>
