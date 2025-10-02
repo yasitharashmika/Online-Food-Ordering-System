@@ -6,29 +6,37 @@ function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState(""); // store success/error message
+  const [isError, setIsError] = useState(false); // flag for error/success
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setMessage("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/signup", {
+      // Call Spring Boot API
+      const response = await fetch("http://localhost:8080/api/v1/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
+      const data = await response.json(); // ResponseDTO
+
       if (response.ok) {
-        alert("Account created successfully! Please login.");
-        navigate("/login");
+        setMessage(data.message || "Account created successfully!");
+        setIsError(false);
+
+        // optional: redirect after 2 seconds
+        setTimeout(() => navigate("/login"), 2000);
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Signup failed. Try again.");
+        setMessage(data.message || "Signup failed. Try again.");
+        setIsError(true);
       }
     } catch (err) {
-      setError("An error occurred. Please check your network.");
+      setMessage("An error occurred. Please check your network.");
+      setIsError(true);
     }
   };
 
@@ -72,7 +80,12 @@ function Signup() {
             />
           </div>
 
-          {error && <p className="error-message">{error}</p>}
+          {/* Show success or error message here */}
+          {message && (
+            <p className={isError ? "error-message" : "success-message"}>
+              {message}
+            </p>
+          )}
 
           <button type="submit" className="btn login-btn">
             Sign Up

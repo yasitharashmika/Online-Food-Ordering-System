@@ -5,30 +5,40 @@ import { Link, useNavigate } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setMessage("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/login", {
+      const response = await fetch("http://localhost:8080/api/v1/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        navigate("/");
+        // Backend sends ResponseDTO: { data, message, responseCode }
+        setMessage(data.message || "Login successful!");
+        setIsError(false);
+
+        // Save logged-in user (instead of token for now)
+        localStorage.setItem("user", JSON.stringify(data.data));
+
+        // Redirect after 2 sec
+        setTimeout(() => navigate("/"), 2000);
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Login failed. Please try again.");
+        setMessage(data.message || "Login failed. Please try again.");
+        setIsError(true);
       }
     } catch (err) {
-      setError("An error occurred. Please check your network.");
+      setMessage("An error occurred. Please check your network.");
+      setIsError(true);
     }
   };
 
@@ -39,10 +49,11 @@ function Login() {
         <p className="login-subtitle">We Are Happy To See You Again</p>
 
         <div className="toggle-btns">
-            <button className="btn active">Sign In</button>
-            <button className="btn" onClick={() => navigate("/signup")}>Sign Up</button>
+          <button className="btn active">Sign In</button>
+          <button className="btn" onClick={() => navigate("/signup")}>
+            Sign Up
+          </button>
         </div>
-
 
         <form onSubmit={handleSubmit}>
           <div className="form-group input-with-icon">
@@ -52,6 +63,7 @@ function Login() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -62,6 +74,7 @@ function Login() {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
             <i className="fas fa-eye toggle-password"></i>
           </div>
@@ -75,7 +88,11 @@ function Login() {
             </Link>
           </div>
 
-          {error && <p className="error-message">{error}</p>}
+          {message && (
+            <p className={isError ? "error-message" : "success-message"}>
+              {message}
+            </p>
+          )}
 
           <button type="submit" className="btn login-btn">
             Login
