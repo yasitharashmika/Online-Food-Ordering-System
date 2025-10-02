@@ -1,5 +1,6 @@
 package com.example.onlinefoodorderingsystem.Controller;
 
+import com.example.onlinefoodorderingsystem.DTO.LoginDTO;
 import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
 import com.example.onlinefoodorderingsystem.DTO.UserDTO;
 import com.example.onlinefoodorderingsystem.Service.UserService;
@@ -19,5 +20,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO> registerUser(@RequestBody UserDTO userDTO) {
         return userService.registerUser(userDTO);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
+        return userService.loginUser(loginDTO);
     }
 }
