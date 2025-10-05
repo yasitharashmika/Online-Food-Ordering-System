@@ -62,9 +62,6 @@ export default function Navbar() {
             <li>
               <Link to="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link>
             </li>
-            <li>
-              <Link to="/Admin" onClick={() => setIsMenuOpen(false)}>Admin Dashboad</Link>
-            </li>
           </ul>
         </div>
 
