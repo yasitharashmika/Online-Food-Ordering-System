@@ -15,7 +15,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import VerifyOtp from './pages/VerifyOtp';
 import ResetPassword from './pages/ResetPassword';
 
-// jkgl qrpp xcgo rpdr gmail sender app password
+// jkgl qrpp xcgo rpdr gmail sender app password use for our Email
 
 function App() {
   return (
