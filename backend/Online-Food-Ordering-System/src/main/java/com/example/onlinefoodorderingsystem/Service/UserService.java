@@ -8,4 +8,8 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
     ResponseEntity<ResponseDTO> registerUser(UserDTO userDTO);
     ResponseEntity<ResponseDTO> loginUser(LoginDTO loginDTO);
+    ResponseEntity<ResponseDTO> forgotPassword(String email);
+    ResponseEntity<ResponseDTO> verifyOtp(String email, String otp);
+    ResponseEntity<ResponseDTO> resetPassword(String email, String newPassword);
+
 }
