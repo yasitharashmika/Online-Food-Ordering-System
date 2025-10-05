@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import Footer from './components/Footer';
 import About from './pages/About';
 import Signup from './pages/SignUp';
+import Admin from "./pages/Admin";
+
 
 
 
@@ -27,6 +29,7 @@ function App() {
           <Route path="/about-us" element={<About />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<About />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
         <Footer />
       </div>
