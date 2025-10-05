@@ -1,5 +1,6 @@
 package com.example.onlinefoodorderingsystem.Controller;
 
+import com.example.onlinefoodorderingsystem.DTO.ForgotPasswordDTO;
 import com.example.onlinefoodorderingsystem.DTO.LoginDTO;
 import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
 import com.example.onlinefoodorderingsystem.DTO.UserDTO;
@@ -26,4 +27,20 @@ public class UserController {
     public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
         return userService.loginUser(loginDTO);
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody ForgotPasswordDTO request) {
+        return userService.forgotPassword(request.getEmail());
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<ResponseDTO> verifyOtp(@RequestBody ForgotPasswordDTO request) {
+        return userService.verifyOtp(request.getEmail(), request.getOtp());
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ResponseDTO> resetPassword(@RequestBody ForgotPasswordDTO request) {
+        return userService.resetPassword(request.getEmail(), request.getNewPassword());
+    }
+
 }
