@@ -10,14 +10,12 @@ import Login from './pages/Login';
 import Footer from './components/Footer';
 import About from './pages/About';
 import Signup from './pages/SignUp';
-import Admin from "./pages/Admin";
-
 
 import ForgotPassword from './pages/ForgotPassword';
 import VerifyOtp from './pages/VerifyOtp';
 import ResetPassword from './pages/ResetPassword';
 
-// jkgl qrpp xcgo rpdr gmail sender app password
+// jkgl qrpp xcgo rpdr gmail sender app password use for our Email
 
 function App() {
   return (
@@ -34,9 +32,6 @@ function App() {
           <Route path="/about-us" element={<About />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<About />} />
-
-          <Route path="/admin" element={<Admin />} />
-
 
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
