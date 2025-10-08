@@ -10,6 +10,13 @@ import Login from './pages/Login';
 import Footer from './components/Footer';
 import About from './pages/About';
 import Signup from './pages/SignUp';
+import Notification from './pages/Notification';
+
+
+
+
+
+
 
 
 
@@ -27,6 +34,10 @@ function App() {
           <Route path="/about-us" element={<About />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<About />} />
+          <Route path="/notification" element={<Notification />} />
+
+
+
         </Routes>
         <Footer />
       </div>
