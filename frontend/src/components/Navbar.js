@@ -62,6 +62,9 @@ export default function Navbar() {
             <li>
               <Link to="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link>
             </li>
+             <li>
+              <Link to="/Rider-Dashboard" onClick={() => setIsMenuOpen(false)}>Rider Dashboard</Link>
+            </li>
           </ul>
         </div>
 
