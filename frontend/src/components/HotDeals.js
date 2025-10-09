@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/HotDeals.css'; // Relative path to CSS
+import '../style/HotDeals.css';
 import { Link } from 'react-router-dom';
 
 function HotDeals() {
@@ -28,20 +28,22 @@ function HotDeals() {
   ];
 
   return (
-    <div className="dashboard-grid">
-      <div className="card">
-        <h3>Hot Deals</h3>
-        <div className="deals-grid">
-          {deals.map((deal) => (
-            <div key={deal.id} className="deal-card">
-              <img src={deal.image} alt={deal.title} className="deal-image" />
-              <div className="deal-content">
-                <h4>{deal.title}</h4>
-                <p>{deal.description}</p>
-                <Link to={deal.link} className="deal-btn">Grab Deal</Link>
+    <div className="crave-hot-deals-section">
+      <div className="crave-dashboard-grid">
+        <div className="card crave-hot-deals-card">
+          <h3>Hot Deals</h3>
+          <div className="crave-deals-grid">
+            {deals.map((deal) => (
+              <div key={deal.id} className="crave-deal-card">
+                <img src={deal.image} alt={deal.title} className="crave-deal-image" />
+                <div className="crave-deal-content">
+                  <h4>{deal.title}</h4>
+                  <p>{deal.description}</p>
+                  <Link to={deal.link} className="crave-deal-btn">Grab Deal</Link>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

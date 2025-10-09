@@ -1,0 +1,456 @@
+/* CashierDashboard.css - Clean Professional Theme */
+.cashier-dashboard-page {
+  padding: 2rem 0;
+  min-height: calc(100vh - 200px);
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #2d3748;
+}
+
+.cashier-section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.cashier-section-title h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #2d3748;
+}
+
+.cashier-section-title p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* Toast Message */
+.toast-message {
+  position: fixed;
+  top: 100px;
+  right: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  animation: toastSlideIn 0.3s ease;
+  color: white;
+}
+
+.toast-message.success {
+  background: rgba(72, 187, 120, 0.95);
+  border: 1px solid rgba(72, 187, 120, 0.3);
+}
+
+.toast-message.error {
+  background: rgba(229, 62, 62, 0.95);
+  border: 1px solid rgba(229, 62, 62, 0.3);
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Metrics Container */
+.metrics-container {
+  margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08),
+              0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
+              0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.card h3 {
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+}
+
+.card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: #48bb78;
+  border-radius: 2px;
+}
+
+/* Cashier Orders */
+.cashier-orders {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.cashier-order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  border-left: 4px solid #48bb78;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cashier-order-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(72, 187, 120, 0.15);
+  border-left-color: #38a169;
+}
+
+.order-info {
+  flex: 1;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.order-header h4 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #2d3748;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.order-type {
+  background: rgba(229, 62, 62, 0.1);
+  color: #e53e3e;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(229, 62, 62, 0.2);
+}
+
+.order-details {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.order-details p {
+  margin: 0;
+  color: #4a5568;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.order-details strong {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+/* Cashier Actions */
+.cashier-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-complete {
+  background: #48bb78;
+}
+
+.btn-complete:hover {
+  background: #38a169;
+}
+
+/* Status badges for different order types */
+.order-type.dine-in {
+  background: rgba(72, 187, 120, 0.1);
+  color: #48bb78;
+  border-color: rgba(72, 187, 120, 0.2);
+}
+
+.order-type.takeaway {
+  background: rgba(237, 137, 54, 0.1);
+  color: #ed8936;
+  border-color: rgba(237, 137, 54, 0.2);
+}
+
+.order-type.delivery {
+  background: rgba(66, 153, 225, 0.1);
+  color: #4299e1;
+  border-color: rgba(66, 153, 225, 0.2);
+}
+
+/* Animation for order items */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cashier-order-item {
+  animation: slideInUp 0.4s ease forwards;
+}
+
+.cashier-order-item:nth-child(1) { animation-delay: 0.1s; }
+.cashier-order-item:nth-child(2) { animation-delay: 0.2s; }
+.cashier-order-item:nth-child(3) { animation-delay: 0.3s; }
+.cashier-order-item:nth-child(4) { animation-delay: 0.4s; }
+
+/* Empty state styling */
+.no-orders {
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+  padding: 2rem 1rem;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  border: 2px dashed #e2e8f0;
+  font-weight: 500;
+}
+
+/* Metric Card Styles */
+.metric-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08),
+              0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
+              0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.metric-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-card-info {
+  flex: 1;
+}
+
+.metric-card-title {
+  font-size: 0.9rem;
+  color: #718096;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-card-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2d3748;
+  margin: 0;
+}
+
+.metric-card-icon {
+  font-size: 2.5rem;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover .metric-card-icon {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .metrics-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cashier-dashboard-page {
+    padding: 1.25rem 0;
+  }
+  
+  .cashier-section-title h2 {
+    font-size: 2rem;
+  }
+  
+  .cashier-section-title p {
+    font-size: 1.1rem;
+  }
+  
+  .cashier-order-item {
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: stretch;
+    padding: 1.25rem;
+  }
+  
+  .cashier-actions {
+    justify-content: center;
+  }
+  
+  .card {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .order-type {
+    align-self: flex-start;
+  }
+  
+  .toast-message {
+    right: 1rem;
+    left: 1rem;
+    top: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cashier-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .metrics-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .cashier-order-item {
+    padding: 1rem;
+  }
+  
+  .order-header h4 {
+    font-size: 1.2rem;
+  }
+  
+  .metric-card {
+    padding: 1.25rem;
+  }
+  
+  .metric-card-value {
+    font-size: 1.8rem;
+  }
+  
+  .metric-card-icon {
+    font-size: 2rem;
+  }
+}
+
+/* Performance Optimizations */
+.cashier-dashboard-page {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.cashier-order-item {
+  transform: translateZ(0);
+  will-change: transform;
+}

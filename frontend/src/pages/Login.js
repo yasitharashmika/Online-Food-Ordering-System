@@ -14,27 +14,76 @@ function Login() {
     e.preventDefault();
     setMessage("");
 
+    const userEndpoint = `${API_BASE_URL}/api/v1/user/login`;
+    const staffEndpoint = `${API_BASE_URL}/api/v1/staff/login`;
+
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/user/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      // Send both requests in parallel
+      const [userResponse, staffResponse] = await Promise.allSettled([
+        fetch(userEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }),
+        fetch(staffEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }),
+      ]);
 
-      const data = await response.json();
+      // Parse JSON if responses are ok
+      let userData = null;
+      let staffData = null;
 
-      if (response.ok) {
-        // Backend sends ResponseDTO: { data, message, responseCode }
-        setMessage(data.message || "Login successful!");
+      if (userResponse.status === "fulfilled" && userResponse.value.ok) {
+        userData = await userResponse.value.json();
+      }
+
+      if (staffResponse.status === "fulfilled" && staffResponse.value.ok) {
+        staffData = await staffResponse.value.json();
+      }
+
+      // Check outcomes
+      if (userData && staffData) {
+        // Both succeeded - unlikely, but handle (e.g., conflict)
+        setMessage("Account conflict: Credentials match both user and staff. Contact support.");
+        setIsError(true);
+        return;
+      } else if (userData) {
+        // User login success
+        setMessage(userData.message || "Login successful!");
         setIsError(false);
-
-        // Save logged-in user (instead of token for now)
-        localStorage.setItem("user", JSON.stringify(data.data));
-
-        // Redirect after 2 sec
-        setTimeout(() => navigate("/"), 2000);
+        localStorage.setItem("user", JSON.stringify(userData.data));
+        // Assume no role or "user" role -> redirect to home
+        setTimeout(() => navigate("/"), 1500);
+      } else if (staffData) {
+        // Staff login success
+        setMessage(staffData.message || "Login successful!");
+        setIsError(false);
+        localStorage.setItem("user", JSON.stringify(staffData.data));
+        // Role-based navigation
+        const role = staffData.data?.role?.toLowerCase();
+        if (role === "admin") {
+          setTimeout(() => navigate("/admin/dashboard"), 1500);
+        } else if (role === "staff") {
+          setTimeout(() => navigate("/staff/dashboard"), 1500);
+        } else {
+          // Fallback if role invalid
+          setTimeout(() => navigate("/"), 1500);
+        }
       } else {
-        setMessage(data.message || "Login failed. Please try again.");
+        // Both failed
+        // Get error messages if available
+        let errorMsg = "Login failed. Invalid email or password.";
+        if (userResponse.status === "fulfilled" && !userResponse.value.ok) {
+          const userErr = await userResponse.value.json();
+          errorMsg = userErr.message || errorMsg;
+        } else if (staffResponse.status === "fulfilled" && !staffResponse.value.ok) {
+          const staffErr = await staffResponse.value.json();
+          errorMsg = staffErr.message || errorMsg;
+        }
+        setMessage(errorMsg);
         setIsError(true);
       }
     } catch (err) {

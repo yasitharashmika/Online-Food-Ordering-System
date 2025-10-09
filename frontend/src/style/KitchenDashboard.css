@@ -1,0 +1,589 @@
+/* KitchenDashboard.css - Vibrant Colorful Theme */
+.kitchen-dashboard-page {
+  padding: 2rem 0;
+  min-height: calc(100vh - 200px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #2d3748;
+}
+
+/* Metrics Container */
+.kitchen-metrics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.kitchen-metric-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.kitchen-metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  transition: all 0.4s ease;
+}
+
+.kitchen-metric-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: all 0.6s ease;
+  transform: translateX(-100%);
+}
+
+.kitchen-metric-card:hover::before {
+  height: 8px;
+}
+
+.kitchen-metric-card:hover::after {
+  transform: translateX(100%);
+}
+
+.kitchen-metric-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Vibrant gradient colors for each metric card */
+.kitchen-metric-card:nth-child(1)::before { 
+  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+}
+.kitchen-metric-card:nth-child(2)::before { 
+  background: linear-gradient(90deg, #4ECDC4, #44A08D);
+}
+.kitchen-metric-card:nth-child(3)::before { 
+  background: linear-gradient(90deg, #FFD93D, #FF9C33);
+}
+.kitchen-metric-card:nth-child(4)::before { 
+  background: linear-gradient(90deg, #6BCF7F, #4CAF87);
+}
+
+.kitchen-metric-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.kitchen-metric-info {
+  flex: 1;
+}
+
+.kitchen-metric-title {
+  font-size: 0.9rem;
+  color: #718096;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.kitchen-metric-value {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0;
+  background: linear-gradient(135deg, #2d3748, #4a5568);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kitchen-metric-icon {
+  font-size: 3rem;
+  opacity: 0.9;
+  transition: all 0.4s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.kitchen-metric-card:hover .kitchen-metric-icon {
+  transform: scale(1.2) rotate(10deg);
+  opacity: 1;
+}
+
+/* Kitchen Orders Cards */
+.kitchen-orders-container {
+  display: grid;
+  gap: 2rem;
+}
+
+.card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 20px 20px 0 0;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.card h3 {
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50px;
+  height: 4px;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.card:hover h3::after {
+  width: 100px;
+}
+
+/* Status header colors with gradients */
+.status-header.received::after { 
+  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+}
+.status-header.preparing::after { 
+  background: linear-gradient(90deg, #4ECDC4, #44A08D);
+}
+
+/* Kitchen Orders List */
+.kitchen-orders {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.kitchen-order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+.kitchen-order-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 6px;
+  transition: all 0.4s ease;
+}
+
+.kitchen-order-item::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: all 0.6s ease;
+  transform: translateX(-100%);
+}
+
+.kitchen-order-item:hover::after {
+  transform: translateX(100%);
+}
+
+.kitchen-order-item.received::before { 
+  background: linear-gradient(180deg, #FF6B6B, #FF8E53);
+}
+.kitchen-order-item.preparing::before { 
+  background: linear-gradient(180deg, #4ECDC4, #44A08D);
+}
+
+.kitchen-order-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.order-main-info {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.order-header h4 {
+  color: #2d3748;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-type-badge {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  border: none;
+  margin-left: 0.75rem;
+}
+
+.customer-name {
+  color: #4a5568;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.order-details {
+  margin-top: 1.5rem;
+}
+
+.order-details h5 {
+  color: #2d3748;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.order-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.order-detail-item:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(5px);
+}
+
+.item-quantity {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+  color: white;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  min-width: 35px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
+}
+
+.item-name {
+  flex: 1;
+  color: #2d3748;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.item-station {
+  background: linear-gradient(135deg, #6BCF7F, #4CAF87);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(107, 207, 127, 0.4);
+}
+
+.item-time {
+  color: #718096;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+}
+
+/* Animated Progress Bar */
+.progress-bar {
+  width: 120px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-left: auto;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ECDC4, #44A08D);
+  border-radius: 4px;
+  animation: progressPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+}
+
+@keyframes progressPulse {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(1.05); }
+}
+
+/* Kitchen Actions */
+.kitchen-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  min-width: 160px;
+  position: relative;
+  z-index: 2;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.75rem;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  min-width: 150px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  transform: translateY(-2px);
+}
+
+.btn-start-cooking {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+}
+
+.btn-start-cooking:hover {
+  background: linear-gradient(135deg, #FF5252, #FF7B42);
+  box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+}
+
+.btn-complete-cooking {
+  background: linear-gradient(135deg, #4ECDC4, #44A08D);
+}
+
+.btn-complete-cooking:hover {
+  background: linear-gradient(135deg, #26A69A, #2E8B7D);
+  box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
+}
+
+/* Animation for order items */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.kitchen-order-item {
+  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.kitchen-order-item:nth-child(1) { animation-delay: 0.1s; }
+.kitchen-order-item:nth-child(2) { animation-delay: 0.2s; }
+.kitchen-order-item:nth-child(3) { animation-delay: 0.3s; }
+.kitchen-order-item:nth-child(4) { animation-delay: 0.4s; }
+
+/* Floating animation for cards */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.card:hover {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .kitchen-metrics-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .kitchen-dashboard-page {
+    padding: 1.25rem 0;
+  }
+  
+  .kitchen-order-item {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: stretch;
+    padding: 1.5rem;
+  }
+  
+  .kitchen-actions {
+    justify-content: center;
+    min-width: auto;
+  }
+  
+  .card {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .order-type-badge {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .kitchen-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .kitchen-metrics-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .kitchen-order-item {
+    padding: 1.25rem;
+  }
+  
+  .order-header h4 {
+    font-size: 1.2rem;
+  }
+  
+  .order-detail-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Performance Optimizations */
+.kitchen-dashboard-page {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.kitchen-order-item {
+  transform: translateZ(0);
+  will-change: transform;
+}

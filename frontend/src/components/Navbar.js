@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png';
-import '../style/Navbar.css';
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
+import "../style/Navbar.css";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,76 +9,88 @@ export default function Navbar() {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  const user = JSON.parse(localStorage.getItem("user")); // check login
+  // safe parse (prevents crashes when localStorage has invalid data)
+  const getUserFromStorage = () => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
+  };
+  const user = getUserFromStorage();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setIsDropdownOpen(false);
     navigate("/login");
-    setIsDropdownOpen(false); // close dropdown on logout
+  };
+
+  const handleProfileClick = (e) => {
+    // toggle only when logged in; otherwise redirect to login
+    if (user) {
+      setIsDropdownOpen((prev) => !prev);
+    } else {
+      navigate("/login");
+    }
   };
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close dropdown on Escape
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") setIsDropdownOpen(false);
     };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
   }, []);
 
   return (
-    <nav className="navbar">
-      <div className="nav-container">
+    <nav className="cr-navbar">
+      <div className="cr-nav-container">
         {/* Logo + Brand */}
-        <div className="logo">
+        <div className="cr-logo">
           <img src={logo} alt="CraveCorner Logo" />
-          <span className="brand-name">CraveCorner</span>
+          <span className="cr-brand-name">CraveCorner</span>
         </div>
 
         {/* Nav Links */}
-        <div className={`nav-links ${isMenuOpen ? 'nav-active' : ''}`}>
+        <div className={`cr-nav-links ${isMenuOpen ? "cr-nav-active" : ""}`}>
           <ul>
-            <li>
-              <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            </li>
-            <li>
-              <Link to="/menu" onClick={() => setIsMenuOpen(false)}>Menu</Link>
-            </li>
-            <li>
-              <Link to="/book-table" onClick={() => setIsMenuOpen(false)}>Book Table</Link>
-            </li>
-            <li>
-              <Link to="/track-order" onClick={() => setIsMenuOpen(false)}>Track Order</Link>
-            </li>
-            <li>
-              <Link to="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link>
-            </li>
+            <li><Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
+            <li><Link to="/menu" onClick={() => setIsMenuOpen(false)}>Menu</Link></li>
+            <li><Link to="/book-table" onClick={() => setIsMenuOpen(false)}>Book Table</Link></li>
+            <li><Link to="/track-order" onClick={() => setIsMenuOpen(false)}>Track Order</Link></li>
+            <li><Link to="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link></li>
+            <li><Link to="/staff/dashboard" onClick={() => setIsMenuOpen(false)}>Staff Dashboard</Link></li>
+            <li><Link to="/staff/orders" onClick={() => setIsMenuOpen(false)}>Orders</Link></li>
+            <li><Link to="/staff/bookings" onClick={() => setIsMenuOpen(false)}>Bookings</Link></li>
           </ul>
         </div>
 
-        {/* Right side */}
-        <div className="nav-right">
-          <div className={`dropdown ${isDropdownOpen ? 'show' : ''}`} ref={dropdownRef}>
+        {/* Right Side */}
+        <div className="cr-nav-right">
+          <div
+            className={`cr-dropdown ${isDropdownOpen ? "cr-open" : ""}`}
+            ref={dropdownRef}
+          >
             <button
-              className="profile-btn"
-              onClick={() => {
-                if (user) {
-                  setIsDropdownOpen((prev) => !prev); // toggle dropdown ONLY on click
-                } else {
-                  navigate("/login");
-                }
-              }}
+              className="cr-profile-btn"
+              onClick={handleProfileClick}
+              aria-haspopup="true"
+              aria-expanded={isDropdownOpen}
+              title={user ? "Open account menu" : "Login"}
             >
-              {/* Always show icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="28"
@@ -89,6 +101,7 @@ export default function Navbar() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
@@ -96,21 +109,33 @@ export default function Navbar() {
             </button>
 
             {user && (
-              <div className="dropdown-content">
-                <Link to="/dashboard" onClick={() => setIsDropdownOpen(false)}>Dashboard</Link>
-                <Link to="/orders" onClick={() => setIsDropdownOpen(false)}>Orders</Link>
-                <Link to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</Link>
-                <button onClick={handleLogout}>Logout</button>
+              <div className="cr-dropdown-menu" role="menu">
+                <div className="cr-dropdown-header">
+                  <div className="cr-user-name">{user.name}</div>
+                  <div className="cr-user-email">{user.email}</div>
+                </div>
+
+                <ul className="cr-dropdown-list">
+                  <li><Link to="/dashboard" onClick={() => setIsDropdownOpen(false)}>Dashboard</Link></li>
+                  <li><Link to="/orders" onClick={() => setIsDropdownOpen(false)}>Orders</Link></li>
+                  <li><Link to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</Link></li>
+                  <li><button className="cr-logout-btn" onClick={handleLogout}>Logout</button></li>
+                </ul>
               </div>
             )}
           </div>
 
-          {/* Hamburger Menu */}
-          <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
-          </div>
+          {/* Hamburger */}
+          <button
+            className="cr-hamburger"
+            onClick={() => setIsMenuOpen((p) => !p)}
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+          >
+            <span className="cr-bar"></span>
+            <span className="cr-bar"></span>
+            <span className="cr-bar"></span>
+          </button>
         </div>
       </div>
     </nav>
