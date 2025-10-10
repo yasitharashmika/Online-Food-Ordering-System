@@ -26,6 +26,7 @@ import RiderDashboard from './pages/RiderDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminUsers from './pages/AdminUsers';
 import AdminOrders from './pages/AdminOrders';
+import MenuManagement from './pages/MenuManagement';
 
 
 // ✅ ProtectedRoute component to restrict access
@@ -158,6 +159,14 @@ function LayoutWrapper() {
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
               <AdminOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/MenuManagement"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <MenuManagement />
             </ProtectedRoute>
           }
         />

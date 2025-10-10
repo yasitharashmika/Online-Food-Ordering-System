@@ -12,4 +12,6 @@ public interface UserService {
     ResponseEntity<ResponseDTO> verifyOtp(String email, String otp);
     ResponseEntity<ResponseDTO> resetPassword(String email, String newPassword);
 
+    // ✅ New method to fetch all users
+    ResponseEntity<ResponseDTO> getAllUsers();
 }

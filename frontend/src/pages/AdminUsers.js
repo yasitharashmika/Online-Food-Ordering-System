@@ -12,7 +12,7 @@ function AdminUsers() {
   // Fetch all staff members
   const fetchStaff = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/user/all-staff`);
+      const response = await fetch(`${API_BASE_URL}/api/v1/staff/all-staff`);
       const data = await response.json();
       setStaffList(data);
     } catch (error) {
@@ -31,7 +31,7 @@ function AdminUsers() {
     setMessage("");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/user/register`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/staff/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -62,7 +62,7 @@ function AdminUsers() {
     if (!window.confirm("Are you sure you want to delete this staff member?")) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/user/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/staff/${id}`, {
         method: "DELETE",
       });
 

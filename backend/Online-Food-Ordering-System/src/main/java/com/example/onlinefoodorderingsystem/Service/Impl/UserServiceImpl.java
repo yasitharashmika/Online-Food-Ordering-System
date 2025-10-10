@@ -9,14 +9,12 @@ import com.example.onlinefoodorderingsystem.Service.EmailService;
 import com.example.onlinefoodorderingsystem.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import com.example.onlinefoodorderingsystem.Entity.PasswordResetToken;
 import com.example.onlinefoodorderingsystem.Repository.PasswordResetTokenRepository;
 import java.time.LocalDateTime;
 import java.util.Random;
-
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,15 +26,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EmailService emailService;
 
-
-
     @Override
     public ResponseEntity<ResponseDTO> registerUser(UserDTO userDTO) {
         try {
-            // Normalize email to lowercase
             String normalizedEmail = userDTO.getEmail().toLowerCase();
-
-            // Check if email already exists
             boolean exists = userRepository.findAll()
                     .stream()
                     .anyMatch(u -> u.getEmail().equals(normalizedEmail));
@@ -47,15 +40,13 @@ public class UserServiceImpl implements UserService {
                         .build(), HttpStatus.CONFLICT);
             }
 
-            // Convert DTO to Entity
             User user = new User();
             user.setName(userDTO.getName());
-            user.setEmail(normalizedEmail); // ✅ save lowercase
-            user.setPassword(userDTO.getPassword()); // NOTE: plain text, not safe for production
+            user.setEmail(normalizedEmail);
+            user.setPassword(userDTO.getPassword());
 
             userRepository.save(user);
 
-            // Return success response
             return new ResponseEntity<>(ResponseDTO.builder()
                     .data(userDTO)
                     .message("User registered successfully")
@@ -63,7 +54,6 @@ public class UserServiceImpl implements UserService {
                     .build(), HttpStatus.CREATED);
 
         } catch (Exception e) {
-            // Handle error
             return new ResponseEntity<>(ResponseDTO.builder()
                     .message("Failed to register user: " + e.getMessage())
                     .responseCode(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -74,10 +64,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<ResponseDTO> loginUser(LoginDTO loginDTO) {
         try {
-            // Normalize email to lowercase
             String normalizedEmail = loginDTO.getEmail().toLowerCase();
-
-            // Find user
             User user = userRepository.findAll()
                     .stream()
                     .filter(u -> u.getEmail().equals(normalizedEmail) &&
@@ -115,10 +102,8 @@ public class UserServiceImpl implements UserService {
                     .build(), HttpStatus.NOT_FOUND);
         }
 
-        // Generate OTP
         String otp = String.valueOf(new Random().nextInt(900000) + 100000);
 
-        // Create or update token record
         PasswordResetToken token = tokenRepository.findByEmail(email.toLowerCase());
         if (token == null) {
             token = new PasswordResetToken();
@@ -128,7 +113,6 @@ public class UserServiceImpl implements UserService {
         token.setExpiryTime(LocalDateTime.now().plusMinutes(5));
         tokenRepository.save(token);
 
-        // Send OTP asynchronously
         emailService.sendOtpEmail(email, otp);
 
         return new ResponseEntity<>(ResponseDTO.builder()
@@ -136,7 +120,6 @@ public class UserServiceImpl implements UserService {
                 .responseCode(HttpStatus.OK)
                 .build(), HttpStatus.OK);
     }
-
 
     @Override
     public ResponseEntity<ResponseDTO> verifyOtp(String email, String otp) {
@@ -168,7 +151,6 @@ public class UserServiceImpl implements UserService {
                 .build(), HttpStatus.OK);
     }
 
-
     @Override
     public ResponseEntity<ResponseDTO> resetPassword(String email, String newPassword) {
         User user = userRepository.findByEmail(email.toLowerCase());
@@ -187,11 +169,9 @@ public class UserServiceImpl implements UserService {
                     .build(), HttpStatus.BAD_REQUEST);
         }
 
-        // Update password
         user.setPassword(newPassword);
         userRepository.save(user);
 
-        // Delete used token
         tokenRepository.delete(token);
 
         return new ResponseEntity<>(ResponseDTO.builder()
@@ -200,5 +180,21 @@ public class UserServiceImpl implements UserService {
                 .build(), HttpStatus.OK);
     }
 
-
+    // ✅ New method: fetch all users
+    @Override
+    public ResponseEntity<ResponseDTO> getAllUsers() {
+        try {
+            List<User> users = userRepository.findAll();
+            return new ResponseEntity<>(ResponseDTO.builder()
+                    .data(users)
+                    .message("Users fetched successfully")
+                    .responseCode(HttpStatus.OK)
+                    .build(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(ResponseDTO.builder()
+                    .message("Failed to fetch users: " + e.getMessage())
+                    .responseCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -51,11 +51,11 @@ function AdminSidebar() {
         </Link>
 
         <Link
-          to="/admin/menu"
-          className={`menu-item ${location.pathname === "/admin/menu" ? "active" : ""}`}
+          to="/admin/menuManagement"
+          className={`menu-item ${location.pathname === "/admin/menuManagement" ? "active" : ""}`}
         >
           <div className="menu-icon"><i className="fas fa-utensils"></i></div>
-          <span className="menu-label">Menu Items</span>
+          <span className="menu-label">Menu Management</span>
         </Link>
 
         <Link

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/user")
+@RequestMapping("api/v1/user") // keep as /user
 @CrossOrigin
 public class UserController {
 
@@ -43,4 +43,9 @@ public class UserController {
         return userService.resetPassword(request.getEmail(), request.getNewPassword());
     }
 
+    // ✅ New endpoint to fetch all users
+    @GetMapping("/all")
+    public ResponseEntity<ResponseDTO> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }

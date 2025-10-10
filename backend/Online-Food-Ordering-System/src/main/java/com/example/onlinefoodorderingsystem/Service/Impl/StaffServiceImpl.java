@@ -2,20 +2,19 @@ package com.example.onlinefoodorderingsystem.Service.Impl;
 
 import com.example.onlinefoodorderingsystem.DTO.LoginDTO;
 import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
+import com.example.onlinefoodorderingsystem.DTO.StaffDTO;
 import com.example.onlinefoodorderingsystem.Entity.PasswordResetToken;
 import com.example.onlinefoodorderingsystem.Entity.Staff;
 import com.example.onlinefoodorderingsystem.Repository.StaffRepository;
 import com.example.onlinefoodorderingsystem.Repository.PasswordResetTokenRepository;
-import com.example.onlinefoodorderingsystem.Service.StaffService;
 import com.example.onlinefoodorderingsystem.Service.EmailService;
+import com.example.onlinefoodorderingsystem.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class StaffServiceImpl implements StaffService {
@@ -93,10 +92,8 @@ public class StaffServiceImpl implements StaffService {
             );
         }
 
-        // Generate OTP
         String otp = String.valueOf(new Random().nextInt(900000) + 100000);
 
-        // Save or update token
         PasswordResetToken token = tokenRepository.findByEmail(email.toLowerCase());
         if (token == null) {
             token = new PasswordResetToken();
@@ -106,7 +103,6 @@ public class StaffServiceImpl implements StaffService {
         token.setExpiryTime(LocalDateTime.now().plusMinutes(5));
         tokenRepository.save(token);
 
-        // Send OTP email
         emailService.sendOtpEmail(email, otp);
 
         return new ResponseEntity<>(
@@ -192,6 +188,78 @@ public class StaffServiceImpl implements StaffService {
         return new ResponseEntity<>(
                 ResponseDTO.builder()
                         .message("Password reset successfully.")
+                        .responseCode(HttpStatus.OK)
+                        .build(),
+                HttpStatus.OK
+        );
+    }
+
+    // ✅ New: Register Staff
+    @Override
+    public ResponseEntity<ResponseDTO> registerStaff(StaffDTO staffDTO) {
+        try {
+            String email = staffDTO.getEmail().toLowerCase();
+            if (staffRepository.findByEmail(email) != null) {
+                return new ResponseEntity<>(
+                        ResponseDTO.builder()
+                                .message("Email already registered")
+                                .responseCode(HttpStatus.CONFLICT)
+                                .build(),
+                        HttpStatus.CONFLICT
+                );
+            }
+
+            Staff staff = new Staff();
+            staff.setName(staffDTO.getName());
+            staff.setEmail(email);
+            staff.setPassword(staffDTO.getPassword());
+            staff.setRole(staffDTO.getRole());
+
+            staffRepository.save(staff);
+
+            return new ResponseEntity<>(
+                    ResponseDTO.builder()
+                            .data(staffDTO)
+                            .message("Staff registered successfully")
+                            .responseCode(HttpStatus.CREATED)
+                            .build(),
+                    HttpStatus.CREATED
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    ResponseDTO.builder()
+                            .message("Failed to register staff: " + e.getMessage())
+                            .responseCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build(),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    // ✅ New: Get all staff
+    @Override
+    public List<Staff> getAllStaff() {
+        return staffRepository.findAll();
+    }
+
+    // ✅ New: Delete staff
+    @Override
+    public ResponseEntity<ResponseDTO> deleteStaff(int id) {
+        Optional<Staff> staffOptional = staffRepository.findById(id);
+        if (staffOptional.isEmpty()) {
+            return new ResponseEntity<>(
+                    ResponseDTO.builder()
+                            .message("Staff not found")
+                            .responseCode(HttpStatus.NOT_FOUND)
+                            .build(),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
+        staffRepository.deleteById(id);
+        return new ResponseEntity<>(
+                ResponseDTO.builder()
+                        .message("Staff deleted successfully")
                         .responseCode(HttpStatus.OK)
                         .build(),
                 HttpStatus.OK
