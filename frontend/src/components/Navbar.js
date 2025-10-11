@@ -23,6 +23,9 @@ export default function Navbar() {
             <li><Link to="/book-table" onClick={() => setIsMenuOpen(false)}>Book Table</Link></li>
             <li><Link to="/track-order" onClick={() => setIsMenuOpen(false)}>Track Order</Link></li>
             <li><Link to="/notification" onClick={() => setIsMenuOpen(false)}>Notifications</Link></li>
+            <li><Link to="/cart" onClick={() => setIsMenuOpen(false)}>Cart</Link></li>
+            <li><Link to="/checkout" onClick={() => setIsMenuOpen(false)}>Checkout</Link></li>
+            <li><Link to="/customer-dashboard" onClick={() => setIsMenuOpen(false)}>CustomerDashboard</Link></li>
             <li><Link to="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link></li> {/* ✅ Added */}
           </ul>
         </div>

@@ -11,9 +11,9 @@ import Footer from './components/Footer';
 import About from './pages/About';
 import Signup from './pages/SignUp';
 import Notification from './pages/Notification';
-
-
-
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import CustomerDashboard from './pages/CustomerDashboard';
 
 
 
@@ -35,6 +35,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<About />} />
           <Route path="/notification" element={<Notification />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+
 
 
 

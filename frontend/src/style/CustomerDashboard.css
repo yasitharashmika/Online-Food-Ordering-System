@@ -1,0 +1,348 @@
+/* CustomerDashboard.css */
+
+/* Base Styles */
+.customer-dashboard {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #444 0%, #ffffff 150%);
+  min-height: 100vh;
+}
+
+/* Header Styles */
+.customer-dashboard h2 {
+  color: #1a1a1a;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fbdd18 100%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.customer-welcome-text {
+  color: #f5e39d;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+/* Summary Cards */
+.customer-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.customer-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.customer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.customer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.customer-card h3 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.customer-card p {
+  color: #666;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Dashboard Sections */
+.customer-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.customer-section-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.customer-section-box h3 {
+  color: #1a1a1a;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* Order and Reservation Cards */
+.customer-order-card,
+.customer-reservation-card {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.customer-order-card:hover,
+.customer-reservation-card:hover {
+  transform: translateX(8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #444(24.49% 1.32 290.48);
+}
+
+.customer-order-card h4,
+.customer-reservation-card h4 {
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.customer-order-card p,
+.customer-reservation-card p {
+  color: #666;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+/* Status Badges */
+.customer-status {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.customer-status.preparing {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+  color: #d63031;
+}
+
+.customer-status.order-received {
+  background: linear-gradient(135deg, #81ecec 0%, #74b9ff 100%);
+  color: #0984e3;
+}
+
+.customer-status.confirmed {
+  background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+  color: #00b894;
+}
+
+.customer-status.delivered {
+  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+  color: #6c5ce7;
+}
+
+/* Buttons */
+.customer-track-btn,
+.customer-view-btn,
+.customer-reorder-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.customer-track-btn,
+.customer-view-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.customer-reorder-btn {
+  background: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%);
+  color: white;
+}
+
+.customer-track-btn:hover,
+.customer-view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.customer-reorder-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(253, 187, 45, 0.3);
+}
+
+/* Order History */
+.customer-order-history {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.customer-order-history h3 {
+  color: #1a1a1a;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* Table Styles */
+.customer-order-history table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.customer-order-history thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.customer-order-history thead th {
+  padding: 1rem;
+  text-align: left;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.customer-order-history tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.customer-order-history tbody tr:hover {
+  background: #f8fafc;
+  transform: scale(1.01);
+}
+
+.customer-order-history tbody td {
+  padding: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .customer-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .customer-summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-dashboard {
+    padding: 1rem;
+  }
+  
+  .customer-dashboard h2 {
+    font-size: 2rem;
+  }
+  
+  .customer-summary-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .customer-section-box,
+  .customer-order-history {
+    padding: 1.5rem;
+  }
+  
+  .customer-order-history table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .customer-about-page {
+    padding: 40px 15px;
+  }
+}
+
+/* Animation Classes */
+@keyframes customerFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.customer-dashboard > * {
+  animation: customerFadeInUp 0.6s ease-out;
+}
+
+.customer-dashboard > *:nth-child(1) { animation-delay: 0.1s; }
+.customer-dashboard > *:nth-child(2) { animation-delay: 0.2s; }
+.customer-dashboard > *:nth-child(3) { animation-delay: 0.3s; }
+.customer-dashboard > *:nth-child(4) { animation-delay: 0.4s; }
+.customer-dashboard > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* Custom Scrollbar */
+.customer-dashboard::-webkit-scrollbar {
+  width: 8px;
+}
+
+.customer-dashboard::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.customer-dashboard::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+.customer-dashboard::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
