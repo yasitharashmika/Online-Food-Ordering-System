@@ -23,5 +23,11 @@ public class FoodItem {
     private Double price;
 
     @Column(nullable = true)
-    private String category; // optional
+    private String category;
+
+    @Column(length = 255)
+    private String description;
+
+    @Column(length = 255)
+    private String imageUrl;
 }

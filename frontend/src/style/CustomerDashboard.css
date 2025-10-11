@@ -1,0 +1,461 @@
+/* CustomerDashboard.css */
+
+.customer-dashboard-page {
+    padding: 60px 20px;
+    color: #f5f5f5;
+    min-height: 100vh;
+    background: url('../assets/food composition.jpg') no-repeat center center/cover;
+    position: relative;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.customer-dashboard-page::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.9)),
+                url("../assets/food composition.jpg") no-repeat center center/cover;
+    filter: blur(8px);
+    z-index: -1;
+    transform: scale(1.1);
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fbdd18 0%, #f5e39d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-text {
+    color: #cccccc;
+    font-size: 25px;
+}
+
+/* Navigation Tabs */
+.dashboard-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #fbdd18;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tab-btn.active {
+    background: rgba(251, 221, 24, 0.2);
+    color: #ffffff;
+    transform: scale(1.02);
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Main Content */
+.dashboard-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-content {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.stat-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(251, 221, 24, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-info h3 {
+    color: #fbdd18;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+}
+
+.stat-info p {
+    color: #cccccc;
+    margin: 0.5rem 0 0 0;
+    font-weight: 500;
+}
+
+/* Content Sections */
+.content-section {
+    margin-bottom: 3rem;
+}
+.content-section:last-child {
+    margin-bottom: 0;
+}
+
+.content-section h2 {
+    color: #fbdd18;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Orders and Reservations Grid/Cards */
+.orders-grid,
+.reservations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.order-card,
+.reservation-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.order-card:hover,
+.reservation-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+.order-header,
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.order-header h4,
+.reservation-header h4 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.order-restaurant, .reservation-date {
+    color: #cccccc;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.order-items, .reservation-details, .order-time {
+    color: #999;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Buttons */
+.track-btn, .view-btn, .reorder-btn, .modify-btn, .cancel-btn, .save-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.track-btn, .view-btn, .reorder-btn, .modify-btn, .save-btn {
+    background: rgba(251, 221, 24, 0.2);
+    color: #fbdd18;
+}
+
+.track-btn:hover, .view-btn:hover, .reorder-btn:hover, .modify-btn:hover, .save-btn:hover {
+    background: rgba(251, 221, 24, 0.3);
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.cancel-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table thead {
+    background: rgba(251, 221, 24, 0.1);
+}
+
+.orders-table th {
+    padding: 1rem;
+    text-align: left;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.orders-table td {
+    padding: 1rem;
+    color: #cccccc;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.orders-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.orders-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Reservations List */
+.reservations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.reservation-item {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.reservation-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.reservation-info h4 {
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.reservation-info p {
+    color: #cccccc;
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+.reservation-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Profile Form */
+.profile-form {
+    max-width: 600px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #fbdd18;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Notification Settings */
+.notification-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px;
+}
+
+.setting-item {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.setting-item label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+.setting-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #fbdd18;
+}
+
+.setting-item p {
+    color: #cccccc;
+    margin: 0;
+    font-size: 0.9rem;
+    margin-left: 2.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .dashboard-tabs {
+        flex-direction: column;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .reservation-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .reservation-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .customer-dashboard-page {
+        padding: 1rem;
+    }
+    .stats-grid, .orders-grid, .reservations-grid {
+        grid-template-columns: 1fr;
+    }
+    .orders-table {
+        font-size: 0.9rem;
+    }
+    .orders-table th, .orders-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}

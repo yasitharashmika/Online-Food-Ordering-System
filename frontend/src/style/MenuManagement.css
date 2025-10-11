@@ -1,0 +1,169 @@
+/* Root Section */
+.menu-mgmt-section {
+  padding: 40px;
+  background-color: #f9fafc;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.menu-mgmt-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.menu-mgmt-message {
+  background-color: #e0ffe3;
+  color: #166534;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Form Styling */
+.menu-mgmt-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
+.menu-mgmt-form input,
+.menu-mgmt-form textarea,
+.menu-mgmt-form select {
+  flex: 1 1 220px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.menu-mgmt-form input:focus,
+.menu-mgmt-form textarea:focus,
+.menu-mgmt-form select:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 3px rgba(0, 119, 255, 0.3);
+}
+
+.menu-mgmt-form button {
+  background: #0077ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu-mgmt-form button:hover {
+  background: #005ecc;
+}
+
+/* Card Layout */
+.menu-mgmt-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+}
+
+.menu-mgmt-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.menu-mgmt-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.menu-mgmt-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-mgmt-no-image {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f4f4;
+  color: #888;
+  font-size: 14px;
+}
+
+.menu-mgmt-details {
+  padding: 15px;
+}
+
+.menu-mgmt-details h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.menu-mgmt-details p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.menu-mgmt-category {
+  font-style: italic;
+  color: #666;
+}
+
+.menu-mgmt-price {
+  font-weight: 600;
+  color: #0077ff;
+}
+
+.menu-mgmt-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.edit-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit-btn:hover {
+  background: #1e7d32;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background: #b0212b;
+}

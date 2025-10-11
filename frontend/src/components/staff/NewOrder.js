@@ -15,17 +15,26 @@ function NewOrder({ addOrder }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const staffEmail = user.email || "staff@system.com";
 
-  // Fetch all food items
+  // ✅ Fetch food items from backend with proper image URL
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/v1/food`)
+    fetch(`${API_BASE_URL}/api/v1/menu/all`)
       .then((res) => res.json())
-      .then((data) => setFoodItems(data))
-      .catch((err) => console.error("Failed to fetch food items", err));
+      .then((data) => {
+        const itemsWithFullUrl = data.map((item) => ({
+          ...item,
+          imageUrl:
+            item.imageUrl && !item.imageUrl.startsWith("http")
+              ? `${API_BASE_URL}${item.imageUrl}`
+              : item.imageUrl,
+        }));
+        setFoodItems(itemsWithFullUrl);
+      })
+      .catch((err) => console.error("❌ Failed to fetch food items:", err));
   }, []);
 
-  // Filter items
+  // ✅ Filter items on search
   useEffect(() => {
-    if (search) {
+    if (search.trim()) {
       const filtered = foodItems.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase())
       );
@@ -35,7 +44,7 @@ function NewOrder({ addOrder }) {
     }
   }, [search, foodItems]);
 
-  // Add item
+  // ✅ Add item to order
   const addItem = (item) => {
     const exists = orderItems.find((i) => i.id === item.id);
     if (exists) {
@@ -47,9 +56,10 @@ function NewOrder({ addOrder }) {
       setOrderItems([...orderItems, { ...item, quantity: 1 }]);
     }
     setSearch("");
+    setFilteredItems([]);
   };
 
-  // Update quantity
+  // ✅ Update quantity
   const updateQuantity = (id, quantity) => {
     const updated = orderItems.map((item) =>
       item.id === id ? { ...item, quantity: Number(quantity) } : item
@@ -57,12 +67,12 @@ function NewOrder({ addOrder }) {
     setOrderItems(updated);
   };
 
-  // Remove item
+  // ✅ Remove item
   const removeItem = (id) => {
     setOrderItems(orderItems.filter((item) => item.id !== id));
   };
 
-  // Calculate total
+  // ✅ Recalculate total
   useEffect(() => {
     const totalValue = orderItems.reduce(
       (acc, item) => acc + item.price * item.quantity,
@@ -74,7 +84,10 @@ function NewOrder({ addOrder }) {
   // ✅ Place order
   const placeOrder = (paymentMethod) => {
     if (orderItems.length === 0) {
-      setMessage({ type: "error", text: "Please add items before placing the order!" });
+      setMessage({
+        type: "error",
+        text: "Please add items before placing the order!",
+      });
       return;
     }
 
@@ -101,7 +114,6 @@ function NewOrder({ addOrder }) {
             type: "success",
             text: `✅ Order placed successfully! Order ID: ${data.data.orderId}`,
           });
-          // Pass order to parent to auto-update dashboard
           addOrder(data.data);
         } else {
           setMessage({ type: "success", text: "✅ Order placed successfully!" });
@@ -110,8 +122,6 @@ function NewOrder({ addOrder }) {
         setOrderItems([]);
         setTableNumber("");
         setTotal(0);
-
-        // Auto-hide message after 5 seconds
         setTimeout(() => setMessage(null), 5000);
       })
       .catch(() =>
@@ -123,10 +133,11 @@ function NewOrder({ addOrder }) {
   };
 
   return (
-    <div className="new-order-container new-order-card">
+    <div className="new-order-container new-order-card-unique">
       <h2>New Order</h2>
 
-      <div className="search-section">
+      {/* ✅ Search Section */}
+      <div className="new-order-search-section">
         <input
           type="text"
           placeholder="Search food..."
@@ -134,17 +145,36 @@ function NewOrder({ addOrder }) {
           onChange={(e) => setSearch(e.target.value)}
         />
         {filteredItems.length > 0 && (
-          <ul className="dropdown">
+          <ul className="new-order-dropdown">
             {filteredItems.map((item) => (
               <li key={item.id} onClick={() => addItem(item)}>
-                {item.name} (${item.price})
+                {item.imageUrl ? (
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className="new-order-dropdown-img"
+                    onError={(e) => {
+                      e.target.src = "/placeholder.png";
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="/placeholder.png"
+                    alt="No preview"
+                    className="new-order-dropdown-img"
+                  />
+                )}
+                <span>
+                  {item.name} (${item.price})
+                </span>
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      <div className="order-items-section">
+      {/* ✅ Order Items Section */}
+      <div className="new-order-items-section">
         {orderItems.length > 0 ? (
           <table>
             <thead>
@@ -184,7 +214,8 @@ function NewOrder({ addOrder }) {
         )}
       </div>
 
-      <div className="order-summary">
+      {/* ✅ Order Summary */}
+      <div className="new-order-summary">
         <input
           type="text"
           placeholder="Table number (optional)"
@@ -192,15 +223,19 @@ function NewOrder({ addOrder }) {
           onChange={(e) => setTableNumber(e.target.value)}
         />
         <h3>Total: ${total.toFixed(2)}</h3>
-        <div className="payment-buttons">
+        <div className="new-order-payment-buttons">
           <button onClick={() => placeOrder("cash")}>Pay Cash</button>
         </div>
       </div>
 
-      {/* ✅ Message display */}
+      {/* ✅ Message Box */}
       {message && (
         <div
-          className={`message-box ${message.type === "success" ? "success" : "error"}`}
+          className={`new-order-message-box ${
+            message.type === "success"
+              ? "new-order-success"
+              : "new-order-error"
+          }`}
         >
           {message.text}
         </div>

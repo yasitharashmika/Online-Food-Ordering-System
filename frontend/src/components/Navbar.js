@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "../style/Navbar.css";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,6 +56,29 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", handleKey);
   }, []);
 
+  // ⭐ UPDATED: Helper function to determine the correct dashboard path
+  const getDashboardPath = () => {
+    // If no user is logged in, they shouldn't see the link, but this is a safe fallback
+    if (!user) return "/login";
+
+    // Treat a missing or null role as a 'customer' for path generation
+    const role = user.role ? user.role.toLowerCase() : 'customer';
+
+    switch (role) {
+      case "admin":
+        return "/admin/dashboard";
+      case "staff":
+      case "rider":
+      case "kitchen":
+      case "cashier":
+        return "/staff/dashboard";
+      case "customer":
+      default:
+        // Ensures the path is correct for customers
+        return "/user/dashboard";
+    }
+  };
+
   return (
     <nav className="cr-navbar">
       <div className="cr-nav-container">
@@ -80,6 +104,8 @@ export default function Navbar() {
 
         {/* Right Side */}
         <div className="cr-nav-right">
+          {user && <NotificationBell />}
+
           <div
             className={`cr-dropdown ${isDropdownOpen ? "cr-open" : ""}`}
             ref={dropdownRef}
@@ -91,18 +117,7 @@ export default function Navbar() {
               aria-expanded={isDropdownOpen}
               title={user ? "Open account menu" : "Login"}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
@@ -115,11 +130,23 @@ export default function Navbar() {
                   <div className="cr-user-email">{user.email}</div>
                 </div>
 
+                {/* ⭐ UPDATED: Simplified condition to check for a specific role */}
                 <ul className="cr-dropdown-list">
-                  <li><Link to="/dashboard" onClick={() => setIsDropdownOpen(false)}>Dashboard</Link></li>
-                  <li><Link to="/orders" onClick={() => setIsDropdownOpen(false)}>Orders</Link></li>
-                  <li><Link to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</Link></li>
-                  <li><button className="cr-logout-btn" onClick={handleLogout}>Logout</button></li>
+                  {user.role === 'admin' || user.role === 'staff' ? (
+                    <>
+                      {/* Links for Admin and Staff */}
+                      <li><Link to={getDashboardPath()} onClick={() => setIsDropdownOpen(false)}>Dashboard</Link></li>
+                      <li><button className="cr-logout-btn" onClick={handleLogout}>Logout</button></li>
+                    </>
+                  ) : (
+                    <>
+                      {/* Links for Customers (users with no specific role) */}
+                      <li><Link to={getDashboardPath()} onClick={() => setIsDropdownOpen(false)}>Dashboard</Link></li>
+                      <li><Link to="/orders" onClick={() => setIsDropdownOpen(false)}>My Orders</Link></li>
+                      <li><Link to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</Link></li>
+                      <li><button className="cr-logout-btn" onClick={handleLogout}>Logout</button></li>
+                    </>
+                  )}
                 </ul>
               </div>
             )}

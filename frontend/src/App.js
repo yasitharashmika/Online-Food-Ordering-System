@@ -22,29 +22,33 @@ import OrderProcessing from './pages/OrderProcessing';
 import TableBookingOverview from './pages/TableBookingOverview';
 import RiderDashboard from './pages/RiderDashboard';
 
-// ✅ Import Admin Dashboard
 import AdminDashboard from './pages/AdminDashboard';
 import AdminUsers from './pages/AdminUsers';
 import AdminOrders from './pages/AdminOrders';
 import MenuManagement from './pages/MenuManagement';
 
+// ⭐ 1. IMPORT the CustomerDashboard
+import CustomerDashboard from './pages/CustomerDashboard';
 
-// ✅ ProtectedRoute component to restrict access
+
+// ProtectedRoute component to restrict access
 function ProtectedRoute({ children, allowedRoles }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // If not logged in, redirect to login
+  // If not logged in at all, redirect to login
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // If user role not allowed, redirect to home
+  // If user is logged in, but their role is not allowed, redirect to the homepage.
+  // This is better than sending a logged-in admin back to the login page.
   const role = user.role?.toLowerCase();
   if (!allowedRoles.includes(role)) {
-    return <Navigate to="/login" replace />;
+    // ⭐ MODIFIED: Redirect unauthorized users to home instead of login
+    return <Navigate to="/" replace />;
   }
 
-  // Authorized
+  // If authorized, show the component
   return children;
 }
 
@@ -64,12 +68,14 @@ function App() {
 function LayoutWrapper() {
   const location = useLocation();
   const isStaffPage = location.pathname.startsWith('/staff/');
-  const isAdminPage = location.pathname.startsWith('/admin/'); // ✅ added for admin pages
+  const isAdminPage = location.pathname.startsWith('/admin/');
+  // ⭐ ADDED: A check for the user dashboard page to hide the main navbar if needed
+  const isUserDashboard = location.pathname.startsWith('/user/');
 
   return (
     <>
-      {/* Hide Navbar on staff/admin pages */}
-      {!isStaffPage && !isAdminPage && <Navbar />}
+      {/* Hide Navbar on staff, admin, and user dashboard pages */}
+      {!isStaffPage && !isAdminPage &&  <Navbar />}
 
       <Routes>
         {/* Public Routes */}
@@ -87,7 +93,17 @@ function LayoutWrapper() {
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* ✅ Staff Routes (staff + admin allowed) */}
+        {/* ⭐ 2. ADDED: User Routes (user role only) */}
+        <Route
+          path="/user/dashboard"
+          element={
+            
+              <CustomerDashboard />
+            
+          }
+        />
+
+        {/* Staff Routes (staff + admin allowed) */}
         <Route
           path="/staff/dashboard"
           element={
@@ -137,7 +153,7 @@ function LayoutWrapper() {
           }
         />
 
-        {/* ✅ Admin Routes (admin only) */}
+        {/* Admin Routes (admin only) */}
         <Route
           path="/admin/dashboard"
           element={
@@ -172,8 +188,8 @@ function LayoutWrapper() {
         />
       </Routes>
 
-      {/* Hide Footer on staff/admin pages */}
-      {!isStaffPage && !isAdminPage && <Footer />}
+      {/* Hide Footer on staff, admin, and user dashboard pages */}
+      {!isStaffPage && !isAdminPage &&  <Footer />}
     </>
   );
 }

@@ -17,9 +17,24 @@
 
 /* Header */
 .staff-content-header {
+  /* MODIFIED: Changed to flexbox for alignment */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
   padding-bottom: 20px;
   border-bottom: 2px solid #e2e8f0;
+}
+
+/* ADDED: New classes for header layout */
+.header-text-group {
+  text-align: left;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .page-title {
