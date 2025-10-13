@@ -1,16 +1,13 @@
 package com.example.onlinefoodorderingsystem.Controller;
 
-import com.example.onlinefoodorderingsystem.DTO.ForgotPasswordDTO;
-import com.example.onlinefoodorderingsystem.DTO.LoginDTO;
-import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
-import com.example.onlinefoodorderingsystem.DTO.UserDTO;
+import com.example.onlinefoodorderingsystem.DTO.*; // Import all DTOs
 import com.example.onlinefoodorderingsystem.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/user") // keep as /user
+@RequestMapping("api/v1/user")
 @CrossOrigin
 public class UserController {
 
@@ -43,9 +40,28 @@ public class UserController {
         return userService.resetPassword(request.getEmail(), request.getNewPassword());
     }
 
-    // ✅ New endpoint to fetch all users
     @GetMapping("/all")
     public ResponseEntity<ResponseDTO> getAllUsers() {
         return userService.getAllUsers();
     }
+
+    // --- UPDATE START: New endpoints for profile management ---
+
+    /**
+     * Get user profile by email.
+     * In a real secure app, you'd get the user from the JWT token instead of the path.
+     */
+    @GetMapping("/profile/{email}")
+    public ResponseEntity<ResponseDTO> getUserProfile(@PathVariable String email) {
+        return userService.getUserProfile(email);
+    }
+
+    /**
+     * Update user profile by email.
+     */
+    @PutMapping("/profile/{email}")
+    public ResponseEntity<ResponseDTO> updateUserProfile(@PathVariable String email, @RequestBody UserProfileDTO profileDTO) {
+        return userService.updateUserProfile(email, profileDTO);
+    }
+    // --- UPDATE END ---
 }

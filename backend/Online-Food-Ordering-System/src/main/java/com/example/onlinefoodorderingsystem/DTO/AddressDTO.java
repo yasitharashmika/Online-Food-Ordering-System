@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
-    private String name;
-    private String email;
-    private String password;
-
-    // --- UPDATE: Added role field ---
-    private String role;
+public class AddressDTO {
+    private String street;
+    private String city;
+    private String postalCode;
 }

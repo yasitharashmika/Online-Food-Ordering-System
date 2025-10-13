@@ -10,7 +10,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // safe parse (prevents crashes when localStorage has invalid data)
   const getUserFromStorage = () => {
     try {
       return JSON.parse(localStorage.getItem("user") || "null");
@@ -28,7 +27,6 @@ export default function Navbar() {
   };
 
   const handleProfileClick = (e) => {
-    // toggle only when logged in; otherwise redirect to login
     if (user) {
       setIsDropdownOpen((prev) => !prev);
     } else {
@@ -36,7 +34,6 @@ export default function Navbar() {
     }
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -47,7 +44,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close dropdown on Escape
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === "Escape") setIsDropdownOpen(false);
@@ -56,13 +52,9 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", handleKey);
   }, []);
 
-  // ⭐ UPDATED: Helper function to determine the correct dashboard path
   const getDashboardPath = () => {
-    // If no user is logged in, they shouldn't see the link, but this is a safe fallback
     if (!user) return "/login";
-
-    // Treat a missing or null role as a 'customer' for path generation
-    const role = user.role ? user.role.toLowerCase() : 'customer';
+    const role = user.role ? user.role.toLowerCase() : 'user';
 
     switch (role) {
       case "admin":
@@ -72,12 +64,13 @@ export default function Navbar() {
       case "kitchen":
       case "cashier":
         return "/staff/dashboard";
-      case "customer":
+      case "user":
       default:
-        // Ensures the path is correct for customers
         return "/user/dashboard";
     }
   };
+
+  const userRole = user?.role?.toLowerCase();
 
   return (
     <nav className="cr-navbar">
@@ -96,14 +89,32 @@ export default function Navbar() {
             <li><Link to="/book-table" onClick={() => setIsMenuOpen(false)}>Book Table</Link></li>
             <li><Link to="/track-order" onClick={() => setIsMenuOpen(false)}>Track Order</Link></li>
             <li><Link to="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link></li>
-            <li><Link to="/staff/dashboard" onClick={() => setIsMenuOpen(false)}>Staff Dashboard</Link></li>
-            <li><Link to="/staff/orders" onClick={() => setIsMenuOpen(false)}>Orders</Link></li>
-            <li><Link to="/staff/bookings" onClick={() => setIsMenuOpen(false)}>Bookings</Link></li>
+            
+            {userRole === 'admin' || userRole === 'staff' ? (
+                <>
+                  <li><Link to="/staff/dashboard" onClick={() => setIsMenuOpen(false)}>Staff Dashboard</Link></li>
+                  <li><Link to="/staff/orders" onClick={() => setIsMenuOpen(false)}>Orders</Link></li>
+                  <li><Link to="/staff/bookings" onClick={() => setIsMenuOpen(false)}>Bookings</Link></li>
+                </>
+            ) : null}
           </ul>
         </div>
 
         {/* Right Side */}
         <div className="cr-nav-right">
+          
+          {/* --- UPDATE START: Add the Cart Icon for regular users --- */}
+          {user && userRole === 'user' && (
+            <Link to="/cart" className="cr-cart-btn" title="View your cart">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+            </Link>
+          )}
+          {/* --- UPDATE END --- */}
+
           {user && <NotificationBell />}
 
           <div
@@ -129,10 +140,9 @@ export default function Navbar() {
                   <div className="cr-user-name">{user.name}</div>
                   <div className="cr-user-email">{user.email}</div>
                 </div>
-
-                {/* ⭐ UPDATED: Simplified condition to check for a specific role */}
+                
                 <ul className="cr-dropdown-list">
-                  {user.role === 'admin' || user.role === 'staff' ? (
+                  {userRole === 'admin' || userRole === 'staff' ? (
                     <>
                       {/* Links for Admin and Staff */}
                       <li><Link to={getDashboardPath()} onClick={() => setIsDropdownOpen(false)}>Dashboard</Link></li>
@@ -140,10 +150,10 @@ export default function Navbar() {
                     </>
                   ) : (
                     <>
-                      {/* Links for Customers (users with no specific role) */}
+                      {/* Links for Customers (role is 'user') */}
                       <li><Link to={getDashboardPath()} onClick={() => setIsDropdownOpen(false)}>Dashboard</Link></li>
-                      <li><Link to="/orders" onClick={() => setIsDropdownOpen(false)}>My Orders</Link></li>
-                      <li><Link to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</Link></li>
+                      <li><Link to="/user/dashboard/orders" onClick={() => setIsDropdownOpen(false)}>My Orders</Link></li>
+                      <li><Link to="/user/dashboard/profile" onClick={() => setIsDropdownOpen(false)}>Profile</Link></li>
                       <li><button className="cr-logout-btn" onClick={handleLogout}>Logout</button></li>
                     </>
                   )}
@@ -157,7 +167,7 @@ export default function Navbar() {
             className="cr-hamburger"
             onClick={() => setIsMenuOpen((p) => !p)}
             aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
+            aria-expanded={isDropdownOpen}
           >
             <span className="cr-bar"></span>
             <span className="cr-bar"></span>

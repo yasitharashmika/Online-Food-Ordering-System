@@ -27,28 +27,32 @@ import AdminUsers from './pages/AdminUsers';
 import AdminOrders from './pages/AdminOrders';
 import MenuManagement from './pages/MenuManagement';
 
-// ⭐ 1. IMPORT the CustomerDashboard
 import CustomerDashboard from './pages/CustomerDashboard';
+
+import DashboardOverview from './components/customer/DashboardOverview';
+import DashboardOrders from './components/customer/DashboardOrders';
+import DashboardReservations from './components/customer/DashboardReservations';
+import DashboardProfile from './components/customer/DashboardProfile';
+
+// --- UPDATE: Import the new Cart page component ---
+import Cart from './pages/Cart';
 
 
 // ProtectedRoute component to restrict access
 function ProtectedRoute({ children, allowedRoles }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // If not logged in at all, redirect to login
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // If user is logged in, but their role is not allowed, redirect to the homepage.
-  // This is better than sending a logged-in admin back to the login page.
-  const role = user.role?.toLowerCase();
-  if (!allowedRoles.includes(role)) {
-    // ⭐ MODIFIED: Redirect unauthorized users to home instead of login
-    return <Navigate to="/" replace />;
+  const userRole = user.role ? user.role.toLowerCase() : 'user';
+
+  if (!allowedRoles.includes(userRole)) {
+    const dashboardPath = user.role === 'admin' ? '/admin/dashboard' : user.role === 'staff' ? '/staff/dashboard' : '/';
+    return <Navigate to={dashboardPath} replace />;
   }
 
-  // If authorized, show the component
   return children;
 }
 
@@ -69,13 +73,12 @@ function LayoutWrapper() {
   const location = useLocation();
   const isStaffPage = location.pathname.startsWith('/staff/');
   const isAdminPage = location.pathname.startsWith('/admin/');
-  // ⭐ ADDED: A check for the user dashboard page to hide the main navbar if needed
   const isUserDashboard = location.pathname.startsWith('/user/');
 
   return (
     <>
-      {/* Hide Navbar on staff, admin, and user dashboard pages */}
-      {!isStaffPage && !isAdminPage &&  <Navbar />}
+      {/* --- UPDATE: Correctly hide Navbar on all dashboard types --- */}
+      {!isStaffPage && !isAdminPage && !isUserDashboard && <Navbar />}
 
       <Routes>
         {/* Public Routes */}
@@ -88,20 +91,35 @@ function LayoutWrapper() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
 
+        {/* --- UPDATE: Add the new protected route for the Cart page --- */}
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Forgot Password Routes */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* ⭐ 2. ADDED: User Routes (user role only) */}
+        {/* Customer Dashboard Nested Routes */}
         <Route
           path="/user/dashboard"
           element={
-            
+            <ProtectedRoute allowedRoles={["user"]}>
               <CustomerDashboard />
-            
+            </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<DashboardOverview />} />
+          <Route path="orders" element={<DashboardOrders />} />
+          <Route path="reservations" element={<DashboardReservations />} />
+          <Route path="profile" element={<DashboardProfile />} />
+        </Route>
 
         {/* Staff Routes (staff + admin allowed) */}
         <Route
@@ -188,8 +206,8 @@ function LayoutWrapper() {
         />
       </Routes>
 
-      {/* Hide Footer on staff, admin, and user dashboard pages */}
-      {!isStaffPage && !isAdminPage &&  <Footer />}
+      {/* --- UPDATE: Correctly hide Footer on all dashboard types --- */}
+      {!isStaffPage && !isAdminPage && !isUserDashboard && <Footer />}
     </>
   );
 }

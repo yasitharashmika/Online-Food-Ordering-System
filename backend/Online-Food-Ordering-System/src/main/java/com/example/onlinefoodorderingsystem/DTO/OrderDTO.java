@@ -17,7 +17,15 @@ public class OrderDTO {
     private double totalAmount;
     private String paymentMethod;
     private String orderStatus;
-    private String placedBy;
+    private String placedBy; // This remains the customer's email
     private String tableNumber;
     private List<String> items;
+    private String assignedRider;
+
+    // --- UPDATE: Add fields for full customer details ---
+    private String customerName;
+    private String customerPhone;
+    private String customerStreet;
+    private String customerCity;
+    private String customerPostalCode;
 }

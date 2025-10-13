@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +34,11 @@ public class Order {
     @ElementCollection
     private List<String> items;
 
-    // ✅ Start as "Ready To Prepare"
-    private String orderStatus = "Ready To Prepare"; // Ready To Prepare → Ready → Completed
+    private String orderStatus = "Ready To Prepare";
+
+    // ✅ Rider handling
+    private String assignedRider;
+
+    // ✅ New field to track delivered date/time
+    private LocalDateTime deliveredAt;
 }

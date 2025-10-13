@@ -18,7 +18,6 @@ function Login() {
     const staffEndpoint = `${API_BASE_URL}/api/v1/staff/login`;
 
     try {
-      // Send both requests in parallel
       const [userResponse, staffResponse] = await Promise.allSettled([
         fetch(userEndpoint, {
           method: "POST",
@@ -32,7 +31,6 @@ function Login() {
         }),
       ]);
 
-      // Parse JSON if responses are ok
       let userData = null;
       let staffData = null;
 
@@ -44,37 +42,47 @@ function Login() {
         staffData = await staffResponse.value.json();
       }
 
-      // Check outcomes
       if (userData && staffData) {
-        // Both succeeded - unlikely, but handle (e.g., conflict)
         setMessage("Account conflict: Credentials match both user and staff. Contact support.");
         setIsError(true);
         return;
       } else if (userData) {
-        // User login success
+        // --- UPDATE START: Handle successful user login ---
         setMessage(userData.message || "Login successful!");
         setIsError(false);
-        localStorage.setItem("user", JSON.stringify(userData.data));
-        // Assume no role or "user" role -> redirect to home
-        setTimeout(() => navigate("/"), 1500);
+        
+        // Destructure the token and user details from the response data
+        const { token, ...userDetails } = userData.data;
+
+        // 1. Save the token to localStorage. This is the main fix.
+        localStorage.setItem("token", token);
+        
+        // 2. Save the user details to localStorage.
+        localStorage.setItem("user", JSON.stringify(userDetails));
+        
+        // 3. Redirect to the user dashboard.
+        setTimeout(() => navigate("/user/dashboard"), 1500);
+        // --- UPDATE END ---
       } else if (staffData) {
-        // Staff login success
+        // --- UPDATE START: Handle successful staff login ---
         setMessage(staffData.message || "Login successful!");
         setIsError(false);
-        localStorage.setItem("user", JSON.stringify(staffData.data));
-        // Role-based navigation
-        const role = staffData.data?.role?.toLowerCase();
+        
+        const { token, ...staffDetails } = staffData.data;
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(staffDetails));
+
+        const role = staffDetails.role?.toLowerCase();
         if (role === "admin") {
           setTimeout(() => navigate("/admin/dashboard"), 1500);
         } else if (role === "staff") {
           setTimeout(() => navigate("/staff/dashboard"), 1500);
         } else {
-          // Fallback if role invalid
-          setTimeout(() => navigate("/"), 1500);
+          setTimeout(() => navigate("/"), 1500); // Fallback
         }
+        // --- UPDATE END ---
       } else {
-        // Both failed
-        // Get error messages if available
         let errorMsg = "Login failed. Invalid email or password.";
         if (userResponse.status === "fulfilled" && !userResponse.value.ok) {
           const userErr = await userResponse.value.json();

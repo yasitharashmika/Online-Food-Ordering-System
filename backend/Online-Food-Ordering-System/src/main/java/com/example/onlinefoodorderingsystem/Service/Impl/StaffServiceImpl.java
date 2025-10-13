@@ -12,6 +12,9 @@ import com.example.onlinefoodorderingsystem.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+// --- UPDATE: Import the new LoginResponseDTO ---
+import com.example.onlinefoodorderingsystem.DTO.LoginResponseDTO;
+
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -28,45 +31,42 @@ public class StaffServiceImpl implements StaffService {
     @Autowired
     private EmailService emailService;
 
+    // --- UPDATE: This method now returns the LoginResponseDTO with a token ---
     @Override
     public ResponseEntity<ResponseDTO> loginStaff(LoginDTO loginDTO) {
         try {
             String email = loginDTO.getEmail().toLowerCase();
             Staff staff = staffRepository.findByEmail(email);
 
-            if (staff == null) {
-                return new ResponseEntity<>(
-                        ResponseDTO.builder()
-                                .message("No staff found with this email.")
-                                .responseCode(HttpStatus.NOT_FOUND)
-                                .build(),
-                        HttpStatus.NOT_FOUND
-                );
-            }
+            if (staff != null && staff.getPassword().equals(loginDTO.getPassword())) {
+                // In a production app, generate a secure JWT token.
+                String token = "fake-jwt-token-for-staff-" + staff.getId();
 
-            if (!staff.getPassword().equals(loginDTO.getPassword())) {
+                LoginResponseDTO loginResponse = LoginResponseDTO.builder()
+                        .token(token)
+                        .id(staff.getId())
+                        .name(staff.getName())
+                        .email(staff.getEmail())
+                        .role(staff.getRole())
+                        .build();
+
                 return new ResponseEntity<>(
                         ResponseDTO.builder()
-                                .message("Invalid password.")
+                                .data(loginResponse)
+                                .message("Staff login successful")
+                                .responseCode(HttpStatus.OK)
+                                .build(),
+                        HttpStatus.OK
+                );
+            } else {
+                return new ResponseEntity<>(
+                        ResponseDTO.builder()
+                                .message("Invalid email or password.")
                                 .responseCode(HttpStatus.UNAUTHORIZED)
                                 .build(),
                         HttpStatus.UNAUTHORIZED
                 );
             }
-
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("role", staff.getRole().toLowerCase());
-            responseData.put("name", staff.getName());
-            responseData.put("email", staff.getEmail());
-
-            return new ResponseEntity<>(
-                    ResponseDTO.builder()
-                            .data(responseData)
-                            .message("Staff login successful")
-                            .responseCode(HttpStatus.OK)
-                            .build(),
-                    HttpStatus.OK
-            );
 
         } catch (Exception e) {
             return new ResponseEntity<>(
@@ -194,7 +194,6 @@ public class StaffServiceImpl implements StaffService {
         );
     }
 
-    // ✅ New: Register Staff
     @Override
     public ResponseEntity<ResponseDTO> registerStaff(StaffDTO staffDTO) {
         try {
@@ -236,13 +235,11 @@ public class StaffServiceImpl implements StaffService {
         }
     }
 
-    // ✅ New: Get all staff
     @Override
     public List<Staff> getAllStaff() {
         return staffRepository.findAll();
     }
 
-    // ✅ New: Delete staff
     @Override
     public ResponseEntity<ResponseDTO> deleteStaff(int id) {
         Optional<Staff> staffOptional = staffRepository.findById(id);

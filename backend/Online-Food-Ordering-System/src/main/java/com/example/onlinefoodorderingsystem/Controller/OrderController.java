@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/order")
@@ -16,6 +17,8 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    // ... all your existing endpoints are here ...
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createOrder(
@@ -43,9 +46,42 @@ public class OrderController {
         return orderService.processPayment(id, paymentMethod);
     }
 
-    // ✅ New endpoint: update order status (for kitchen or cashier)
     @PutMapping("/{id}/status")
-    public ResponseEntity<ResponseDTO> updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
-        return orderService.updateOrderStatus(id, status);
+    public ResponseEntity<ResponseDTO> updateOrderStatus(
+            @PathVariable Long id,
+            @RequestParam String status,
+            @RequestParam(required = false) String riderEmail
+    ) {
+        return orderService.updateOrderStatus(id, status, riderEmail);
+    }
+
+    @PostMapping("/place-from-cart")
+    public ResponseEntity<ResponseDTO> placeOrderFromCart(@RequestBody Map<String, String> payload) {
+        String userEmail = payload.get("userEmail");
+        String paymentMethod = payload.get("paymentMethod");
+        String tableNumber = payload.get("tableNumber");
+        return orderService.placeOrderFromCart(userEmail, paymentMethod, tableNumber);
+    }
+
+    @GetMapping("/rider/{riderEmail}")
+    public List<OrderDTO> getRiderOrders(@PathVariable String riderEmail) {
+        return orderService.getOrdersForRider(riderEmail);
+    }
+
+    @PutMapping("/{id}/assign-rider")
+    public ResponseEntity<ResponseDTO> assignRider(@PathVariable Long id, @RequestBody Map<String, String> payload) {
+        String riderEmail = payload.get("riderEmail");
+        return orderService.assignRiderToOrder(id, riderEmail);
+    }
+
+    @GetMapping("/available-cod")
+    public List<OrderDTO> getAvailableCODOrders() {
+        return orderService.getAvailableCODOrders();
+    }
+
+    // --- NEW ENDPOINT for Customer Order History ---
+    @GetMapping("/history/{userEmail}")
+    public List<OrderDTO> getOrderHistory(@PathVariable String userEmail) {
+        return orderService.getOrderHistoryForUser(userEmail);
     }
 }

@@ -22,4 +22,12 @@ public class User {
     private String email;
 
     private String password;
+
+    private String role;
+
+    // --- UPDATE: Added new fields for profile information ---
+    private String phone;
+    private String street;
+    private String city;
+    private String postalCode;
 }

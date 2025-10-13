@@ -1,5 +1,9 @@
 package com.example.onlinefoodorderingsystem.Service.Impl;
 
+// --- UPDATE: Import new DTOs ---
+import com.example.onlinefoodorderingsystem.DTO.AddressDTO;
+import com.example.onlinefoodorderingsystem.DTO.UserProfileDTO;
+
 import com.example.onlinefoodorderingsystem.DTO.LoginDTO;
 import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
 import com.example.onlinefoodorderingsystem.DTO.UserDTO;
@@ -12,6 +16,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import com.example.onlinefoodorderingsystem.Entity.PasswordResetToken;
 import com.example.onlinefoodorderingsystem.Repository.PasswordResetTokenRepository;
+import com.example.onlinefoodorderingsystem.DTO.LoginResponseDTO;
+
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.List;
@@ -30,9 +36,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseDTO> registerUser(UserDTO userDTO) {
         try {
             String normalizedEmail = userDTO.getEmail().toLowerCase();
-            boolean exists = userRepository.findAll()
-                    .stream()
-                    .anyMatch(u -> u.getEmail().equals(normalizedEmail));
+            boolean exists = userRepository.findByEmail(normalizedEmail) != null;
             if (exists) {
                 return new ResponseEntity<>(ResponseDTO.builder()
                         .message("Email already registered: " + userDTO.getEmail())
@@ -44,8 +48,11 @@ public class UserServiceImpl implements UserService {
             user.setName(userDTO.getName());
             user.setEmail(normalizedEmail);
             user.setPassword(userDTO.getPassword());
+            user.setRole("User");
 
             userRepository.save(user);
+
+            userDTO.setRole(user.getRole());
 
             return new ResponseEntity<>(ResponseDTO.builder()
                     .data(userDTO)
@@ -65,16 +72,21 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseDTO> loginUser(LoginDTO loginDTO) {
         try {
             String normalizedEmail = loginDTO.getEmail().toLowerCase();
-            User user = userRepository.findAll()
-                    .stream()
-                    .filter(u -> u.getEmail().equals(normalizedEmail) &&
-                            u.getPassword().equals(loginDTO.getPassword()))
-                    .findFirst()
-                    .orElse(null);
+            User user = userRepository.findByEmail(normalizedEmail);
 
-            if (user != null) {
+            if (user != null && user.getPassword().equals(loginDTO.getPassword())) {
+                String token = "fake-jwt-token-for-user-" + user.getId();
+
+                LoginResponseDTO loginResponse = LoginResponseDTO.builder()
+                        .token(token)
+                        .id(user.getId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .role(user.getRole())
+                        .build();
+
                 return new ResponseEntity<>(ResponseDTO.builder()
-                        .data(user.getName())
+                        .data(loginResponse)
                         .message("Login successful")
                         .responseCode(HttpStatus.OK)
                         .build(), HttpStatus.OK);
@@ -180,7 +192,6 @@ public class UserServiceImpl implements UserService {
                 .build(), HttpStatus.OK);
     }
 
-    // ✅ New method: fetch all users
     @Override
     public ResponseEntity<ResponseDTO> getAllUsers() {
         try {
@@ -197,4 +208,57 @@ public class UserServiceImpl implements UserService {
                     .build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // --- UPDATE START: Implementation of new profile management methods ---
+
+    @Override
+    public ResponseEntity<ResponseDTO> getUserProfile(String email) {
+        User user = userRepository.findByEmail(email.toLowerCase());
+        if (user == null) {
+            return new ResponseEntity<>(ResponseDTO.builder()
+                    .message("User not found")
+                    .responseCode(HttpStatus.NOT_FOUND)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        // Map the User Entity to the UserProfileDTO
+        AddressDTO addressDTO = new AddressDTO(user.getStreet(), user.getCity(), user.getPostalCode());
+        UserProfileDTO profileDTO = new UserProfileDTO(user.getName(), user.getEmail(), user.getPhone(), addressDTO);
+
+        return new ResponseEntity<>(ResponseDTO.builder()
+                .data(profileDTO)
+                .message("Profile fetched successfully")
+                .responseCode(HttpStatus.OK)
+                .build(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDTO> updateUserProfile(String email, UserProfileDTO profileDTO) {
+        User user = userRepository.findByEmail(email.toLowerCase());
+        if (user == null) {
+            return new ResponseEntity<>(ResponseDTO.builder()
+                    .message("User not found")
+                    .responseCode(HttpStatus.NOT_FOUND)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        // Update user entity from the DTO
+        user.setName(profileDTO.getName());
+        user.setPhone(profileDTO.getPhone());
+
+        if (profileDTO.getAddress() != null) {
+            user.setStreet(profileDTO.getAddress().getStreet());
+            user.setCity(profileDTO.getAddress().getCity());
+            user.setPostalCode(profileDTO.getAddress().getPostalCode());
+        }
+
+        // Save the updated user to the database
+        userRepository.save(user);
+
+        return new ResponseEntity<>(ResponseDTO.builder()
+                .message("Profile updated successfully")
+                .responseCode(HttpStatus.OK)
+                .build(), HttpStatus.OK);
+    }
+    // --- UPDATE END ---
 }
