@@ -1,589 +1,400 @@
-/* KitchenDashboard.css - Vibrant Colorful Theme */
-.kitchen-dashboard-page {
-  padding: 2rem 0;
-  min-height: calc(100vh - 200px);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #2d3748;
-}
-
-/* Metrics Container */
-.kitchen-metrics-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.kitchen-metric-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
-}
-
-.kitchen-metric-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  transition: all 0.4s ease;
-}
-
-.kitchen-metric-card::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: all 0.6s ease;
-  transform: translateX(-100%);
-}
-
-.kitchen-metric-card:hover::before {
-  height: 8px;
-}
-
-.kitchen-metric-card:hover::after {
-  transform: translateX(100%);
-}
-
-.kitchen-metric-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-}
-
-/* Vibrant gradient colors for each metric card */
-.kitchen-metric-card:nth-child(1)::before { 
-  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
-}
-.kitchen-metric-card:nth-child(2)::before { 
-  background: linear-gradient(90deg, #4ECDC4, #44A08D);
-}
-.kitchen-metric-card:nth-child(3)::before { 
-  background: linear-gradient(90deg, #FFD93D, #FF9C33);
-}
-.kitchen-metric-card:nth-child(4)::before { 
-  background: linear-gradient(90deg, #6BCF7F, #4CAF87);
-}
-
-.kitchen-metric-content {
+/* KitchenOrders.css - Unique Class Names with Previous Theme */
+.kitchen-orders-wrapper {
+  padding: 1rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  z-index: 2;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.kitchen-metric-info {
-  flex: 1;
+.kitchen-orders-card {
+  background: #f8fafc;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.kitchen-metric-title {
-  font-size: 0.9rem;
-  color: #718096;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.kitchen-orders-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
-.kitchen-metric-value {
-  font-size: 2.5rem;
-  font-weight: 900;
-  margin: 0;
-  background: linear-gradient(135deg, #2d3748, #4a5568);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.kitchen-metric-icon {
-  font-size: 3rem;
-  opacity: 0.9;
-  transition: all 0.4s ease;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-}
-
-.kitchen-metric-card:hover .kitchen-metric-icon {
-  transform: scale(1.2) rotate(10deg);
-  opacity: 1;
-}
-
-/* Kitchen Orders Cards */
-.kitchen-orders-container {
-  display: grid;
-  gap: 2rem;
-}
-
-.card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(10px);
-  position: relative;
-  overflow: hidden;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  border-radius: 20px 20px 0 0;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-}
-
-.card h3 {
+.kitchen-orders-card h3 {
   color: #2d3748;
   margin-bottom: 1.5rem;
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  position: relative;
-  display: inline-block;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-bottom: 3px solid #667eea;
+  padding-bottom: 0.5rem;
+  width: 100%;
 }
 
-.card h3::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 50px;
-  height: 4px;
-  border-radius: 2px;
-  transition: width 0.3s ease;
+/* Status header specific colors */
+.kitchen-orders-status-header-received {
+  border-bottom-color: #fed7d7;
 }
 
-.card:hover h3::after {
-  width: 100px;
+.kitchen-orders-status-header-preparing {
+  border-bottom-color: #fefcbf;
 }
 
-/* Status header colors with gradients */
-.status-header.received::after { 
-  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
-}
-.status-header.preparing::after { 
-  background: linear-gradient(90deg, #4ECDC4, #44A08D);
-}
-
-/* Kitchen Orders List */
-.kitchen-orders {
+/* Orders List */
+.kitchen-orders-list {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-.kitchen-order-item {
+.kitchen-orders-item {
+  background: #edf2f7;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 2rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-  border-radius: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(5px);
 }
 
-.kitchen-order-item::before {
+.kitchen-orders-item::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
+  width: 4px;
+  background: #667eea;
+  transition: all 0.3s ease;
+}
+
+.kitchen-orders-item:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e0;
+  transform: translateX(4px);
+}
+
+.kitchen-orders-item:hover::before {
+  background: #4c51bf;
   width: 6px;
-  transition: all 0.4s ease;
 }
 
-.kitchen-order-item::after {
-  content: '';
-  position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: all 0.6s ease;
-  transform: translateX(-100%);
+/* Status specific border colors */
+.kitchen-orders-item-received::before {
+  background: #fed7d7;
 }
 
-.kitchen-order-item:hover::after {
-  transform: translateX(100%);
+.kitchen-orders-item-preparing::before {
+  background: #fefcbf;
 }
 
-.kitchen-order-item.received::before { 
-  background: linear-gradient(180deg, #FF6B6B, #FF8E53);
-}
-.kitchen-order-item.preparing::before { 
-  background: linear-gradient(180deg, #4ECDC4, #44A08D);
+.kitchen-orders-item-received:hover::before {
+  background: #feb2b2;
 }
 
-.kitchen-order-item:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+.kitchen-orders-item-preparing:hover::before {
+  background: #faf089;
 }
 
-.order-main-info {
+/* Order Main Info */
+.kitchen-orders-main-info {
   flex: 1;
-  position: relative;
-  z-index: 2;
 }
 
-.order-header {
+.kitchen-orders-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.order-header h4 {
+.kitchen-orders-header h4 {
   color: #2d3748;
   margin: 0;
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.order-type-badge {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+.kitchen-orders-type-badge {
+  background: #667eea;
   color: white;
-  padding: 0.4rem 1rem;
+  padding: 0.3rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-  border: none;
-  margin-left: 0.75rem;
 }
 
-.customer-name {
+.kitchen-orders-customer-name {
   color: #4a5568;
   font-weight: 600;
   margin-bottom: 1rem;
-  font-size: 1.1rem;
-  background: rgba(255, 255, 255, 0.5);
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  font-size: 0.95rem;
+  background: #e2e8f0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
   display: inline-block;
 }
 
-.order-details {
-  margin-top: 1.5rem;
+/* Order Details */
+.kitchen-orders-details {
+  margin-top: 1rem;
 }
 
-.order-details h5 {
+.kitchen-orders-details h5 {
   color: #2d3748;
-  margin: 0 0 1rem 0;
-  font-size: 1.1rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.order-detail-item {
+.kitchen-orders-detail-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
-  background: rgba(255, 255, 255, 0.5);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.order-detail-item:hover {
-  background: rgba(255, 255, 255, 0.8);
-  transform: translateX(5px);
-}
-
-.item-quantity {
-  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-  color: white;
-  padding: 0.4rem 0.7rem;
+  gap: 0.75rem;
+  padding: 0.5rem;
   border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.9rem;
-  min-width: 35px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
+  margin-bottom: 0.5rem;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
 }
 
-.item-name {
+.kitchen-orders-detail-item:hover {
+  background: #e2e8f0;
+  transform: translateX(4px);
+}
+
+.kitchen-orders-item-quantity {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  min-width: 30px;
+  text-align: center;
+  border: 1px solid #feb2b2;
+}
+
+.kitchen-orders-item-name {
   flex: 1;
   color: #2d3748;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
-.item-station {
-  background: linear-gradient(135deg, #6BCF7F, #4CAF87);
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.8rem;
+.kitchen-orders-item-station {
+  background: #c6f6d5;
+  color: #276749;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  box-shadow: 0 4px 10px rgba(107, 207, 127, 0.4);
+  border: 1px solid #9ae6b4;
 }
 
-.item-time {
+.kitchen-orders-item-time {
   color: #718096;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 0.3rem 0.7rem;
+  background: #f8fafc;
+  padding: 0.3rem 0.6rem;
   border-radius: 6px;
+  border: 1px solid #e2e8f0;
 }
 
-/* Animated Progress Bar */
-.progress-bar {
-  width: 120px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
+/* Progress Bar */
+.kitchen-orders-progress-bar {
+  width: 100px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
   overflow: hidden;
   margin-left: auto;
-  position: relative;
 }
 
-.progress-fill {
+.kitchen-orders-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4ECDC4, #44A08D);
-  border-radius: 4px;
-  animation: progressPulse 2s ease-in-out infinite;
-  box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+  background: #fefcbf;
+  border-radius: 3px;
+  animation: kitchenOrdersProgressPulse 2s ease-in-out infinite;
 }
 
-@keyframes progressPulse {
+@keyframes kitchenOrdersProgressPulse {
   0%, 100% { transform: scaleX(1); }
   50% { transform: scaleX(1.05); }
 }
 
 /* Kitchen Actions */
-.kitchen-actions {
+.kitchen-orders-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  min-width: 160px;
-  position: relative;
-  z-index: 2;
+  min-width: 140px;
+  align-items: flex-start;
 }
 
-.btn {
+.kitchen-orders-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.875rem 1.75rem;
-  color: white;
+  padding: 0.625rem 1.25rem;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 700;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
   text-decoration: none;
   text-align: center;
-  font-size: 0.95rem;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
-  min-width: 150px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  text-transform: uppercase;
+  min-width: 140px;
+  border: 2px solid transparent;
 }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.6s ease;
-}
-
-.btn:hover::before {
-  left: 100%;
-}
-
-.btn:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-}
-
-.btn:active {
+.kitchen-orders-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-.btn-start-cooking {
-  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+.kitchen-orders-btn:active {
+  transform: translateY(0);
 }
 
-.btn-start-cooking:hover {
-  background: linear-gradient(135deg, #FF5252, #FF7B42);
-  box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+.kitchen-orders-btn-start-cooking {
+  background: #667eea;
+  color: white;
+  border-color: #5a67d8;
 }
 
-.btn-complete-cooking {
-  background: linear-gradient(135deg, #4ECDC4, #44A08D);
+.kitchen-orders-btn-start-cooking:hover {
+  background: #5a67d8;
+  border-color: #4c51bf;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
-.btn-complete-cooking:hover {
-  background: linear-gradient(135deg, #26A69A, #2E8B7D);
-  box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
+.kitchen-orders-btn-complete-cooking {
+  background: #48bb78;
+  color: white;
+  border-color: #38a169;
 }
 
-/* Animation for order items */
-@keyframes slideInUp {
+.kitchen-orders-btn-complete-cooking:hover {
+  background: #38a169;
+  border-color: #2f855a;
+  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+/* Animations */
+@keyframes kitchenOrdersSlideIn {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.9);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-.kitchen-order-item {
-  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.kitchen-orders-item {
+  animation: kitchenOrdersSlideIn 0.4s ease forwards;
 }
 
-.kitchen-order-item:nth-child(1) { animation-delay: 0.1s; }
-.kitchen-order-item:nth-child(2) { animation-delay: 0.2s; }
-.kitchen-order-item:nth-child(3) { animation-delay: 0.3s; }
-.kitchen-order-item:nth-child(4) { animation-delay: 0.4s; }
-
-/* Floating animation for cards */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.card:hover {
-  animation: float 3s ease-in-out infinite;
-}
+.kitchen-orders-item:nth-child(1) { animation-delay: 0.1s; }
+.kitchen-orders-item:nth-child(2) { animation-delay: 0.2s; }
+.kitchen-orders-item:nth-child(3) { animation-delay: 0.3s; }
+.kitchen-orders-item:nth-child(4) { animation-delay: 0.4s; }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .kitchen-metrics-container {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.25rem;
-  }
-  
-  .card {
-    padding: 1.5rem;
-  }
-}
-
 @media (max-width: 768px) {
-  .kitchen-dashboard-page {
-    padding: 1.25rem 0;
-  }
-  
-  .kitchen-order-item {
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: stretch;
-    padding: 1.5rem;
-  }
-  
-  .kitchen-actions {
-    justify-content: center;
-    min-width: auto;
-  }
-  
-  .card {
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .order-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-  
-  .order-type-badge {
-    margin-left: 0;
-    align-self: flex-start;
-  }
-}
-
-@media (max-width: 480px) {
-  .kitchen-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .btn {
-    width: 100%;
-    min-width: auto;
-  }
-  
-  .kitchen-metrics-container {
-    grid-template-columns: 1fr;
+  .kitchen-orders-wrapper {
+    padding: 0.75rem;
     gap: 1rem;
   }
   
-  .card {
-    padding: 1rem;
-    margin-bottom: 1.25rem;
-  }
-  
-  .kitchen-order-item {
+  .kitchen-orders-card {
     padding: 1.25rem;
   }
   
-  .order-header h4 {
-    font-size: 1.2rem;
+  .kitchen-orders-item {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
   }
   
-  .order-detail-item {
+  .kitchen-orders-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .kitchen-orders-actions {
+    justify-content: center;
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .kitchen-orders-btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .kitchen-orders-detail-item {
     flex-wrap: wrap;
     gap: 0.5rem;
   }
   
-  .progress-bar {
+  .kitchen-orders-progress-bar {
     width: 100%;
     margin-left: 0;
     margin-top: 0.5rem;
   }
 }
 
+@media (max-width: 480px) {
+  .kitchen-orders-card {
+    padding: 1rem;
+  }
+  
+  .kitchen-orders-item {
+    padding: 0.875rem;
+  }
+  
+  .kitchen-orders-card h3 {
+    font-size: 1.25rem;
+  }
+  
+  .kitchen-orders-header h4 {
+    font-size: 1rem;
+  }
+  
+  .kitchen-orders-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
 /* Performance Optimizations */
-.kitchen-dashboard-page {
+.kitchen-orders-wrapper {
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
-.kitchen-order-item {
+.kitchen-orders-item {
   transform: translateZ(0);
   will-change: transform;
 }

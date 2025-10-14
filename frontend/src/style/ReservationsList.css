@@ -1,192 +1,214 @@
-/* Reservations List Component - Clean Professional Light Theme */
-.reservations-container {
+/* ReservationsList.css - Unique Class Names with Previous Theme */
+.reservations-list-wrapper {
   width: 100%;
-  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.reservations-list-card {
+  background: #f8fafc;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08),
-              0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
-  border: 1px solid #e2e8f0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.reservations-container:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
-              0 4px 12px rgba(0, 0, 0, 0.06);
+.reservations-list-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
-.reservations-container h3 {
+.reservations-list-card h3 {
   color: #2d3748;
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: -0.5px;
-  position: relative;
-  display: inline-block;
+  border-bottom: 3px solid #667eea;
+  padding-bottom: 0.5rem;
+  width: 100%;
 }
 
-.reservations-container h3::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background: #48bb78;
-  border-radius: 2px;
-}
-
-.reservations-table {
+/* Table Styles */
+.reservations-list-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1.25rem;
-  background: white;
+  margin-bottom: 1.5rem;
+  background: #edf2f7;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e2e8f0;
+  border: 2px solid #e2e8f0;
+  table-layout: fixed;
 }
 
-.reservations-table th, 
-.reservations-table td {
+.reservations-list-table th,
+.reservations-list-table td {
   padding: 1rem 1.25rem;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0;
-  transition: all 0.2s ease;
+  border-bottom: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  word-wrap: break-word;
 }
 
-.reservations-table th {
-  background: #f7fafc;
-  font-weight: 600;
+/* Set specific column widths for better layout */
+.reservations-list-table th:nth-child(1),
+.reservations-list-table td:nth-child(1) {
+  width: 15%;
+}
+
+.reservations-list-table th:nth-child(2),
+.reservations-list-table td:nth-child(2) {
+  width: 25%;
+}
+
+.reservations-list-table th:nth-child(3),
+.reservations-list-table td:nth-child(3) {
+  width: 15%;
+  text-align: center;
+}
+
+.reservations-list-table th:nth-child(4),
+.reservations-list-table td:nth-child(4) {
+  width: 20%;
+  text-align: center;
+}
+
+.reservations-list-table th:nth-child(5),
+.reservations-list-table td:nth-child(5) {
+  width: 25%;
+  text-align: center;
+}
+
+.reservations-list-table th {
+  background: #e2e8f0;
+  font-weight: 700;
   color: #2d3748;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 2px solid #e2e8f0;
 }
 
-.reservations-table td {
+.reservations-list-table td {
   color: #4a5568;
   font-weight: 500;
   font-size: 0.95rem;
+  background: #f8fafc;
 }
 
-.reservations-table tr:hover {
-  background: #f7fafc;
+.reservations-list-table tr:hover td {
+  background: #e2e8f0;
 }
 
-.reservations-table tr:last-child td {
+.reservations-list-table tr:last-child td {
   border-bottom: none;
 }
 
-/* Status badges */
-.status-badge {
-  padding: 0.4rem 0.875rem;
+/* Status Styles */
+.reservations-list-status {
+  padding: 0.375rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border: 2px solid;
   display: inline-block;
-}
-
-.status-confirmed {
-  background: rgba(72, 187, 120, 0.1);
-  color: #48bb78;
-  border: 1px solid rgba(72, 187, 120, 0.2);
-}
-
-.status-pending {
-  background: rgba(237, 137, 54, 0.1);
-  color: #ed8936;
-  border: 1px solid rgba(237, 137, 54, 0.2);
-}
-
-.status-cancelled {
-  background: rgba(229, 62, 62, 0.1);
-  color: #e53e3e;
-  border: 1px solid rgba(229, 62, 62, 0.2);
-}
-
-.status-completed {
-  background: rgba(66, 153, 225, 0.1);
-  color: #4299e1;
-  border: 1px solid rgba(66, 153, 225, 0.2);
-}
-
-/* Action buttons */
-.reservation-actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.action-btn {
-  padding: 0.5rem 0.875rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  min-width: 80px;
-}
-
-.btn-confirm {
-  background: rgba(72, 187, 120, 0.1);
-  color: #48bb78;
-  border: 1px solid rgba(72, 187, 120, 0.2);
-}
-
-.btn-confirm:hover {
-  background: #48bb78;
-  color: white;
-  transform: translateY(-1px);
-}
-
-.btn-cancel {
-  background: rgba(229, 62, 62, 0.1);
-  color: #e53e3e;
-  border: 1px solid rgba(229, 62, 62, 0.2);
-}
-
-.btn-cancel:hover {
-  background: #e53e3e;
-  color: white;
-  transform: translateY(-1px);
-}
-
-.btn-edit {
-  background: rgba(66, 153, 225, 0.1);
-  color: #4299e1;
-  border: 1px solid rgba(66, 153, 225, 0.2);
-}
-
-.btn-edit:hover {
-  background: #4299e1;
-  color: white;
-  transform: translateY(-1px);
-}
-
-.no-reservations {
   text-align: center;
-  color: #a0aec0;
-  font-style: italic;
-  padding: 2rem 1rem;
-  font-size: 1.1rem;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 12px;
-  border: 2px dashed #e2e8f0;
-  font-weight: 500;
+  min-width: 100px;
 }
 
-/* Animation for table rows */
-@keyframes fadeIn {
+.reservations-list-status-confirmed {
+  background: #c6f6d5;
+  color: #276749;
+  border-color: #9ae6b4;
+}
+
+.reservations-list-status-seated {
+  background: #fefcbf;
+  color: #d69e2e;
+  border-color: #faf089;
+}
+
+.reservations-list-status-completed {
+  background: #e2e8f0;
+  color: #4a5568;
+  border-color: #cbd5e0;
+}
+
+/* View All Button */
+.reservations-list-view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  background: #2d3748;
+  color: white;
+  border: 2px solid #2d3748;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  margin-top: 1rem;
+  box-sizing: border-box;
+}
+
+.reservations-list-view-all-btn:hover {
+  background: #4a5568;
+  border-color: #4a5568;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45, 55, 72, 0.4);
+}
+
+/* No Reservations State */
+.reservations-list-no-reservations {
+  text-align: center;
+  color: #718096;
+  font-style: italic;
+  padding: 2rem;
+  background: #edf2f7;
+  border-radius: 12px;
+  border: 2px dashed #cbd5e0;
+  font-size: 1.1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reservations-list-error {
+  text-align: center;
+  color: #c53030;
+  font-style: italic;
+  padding: 2rem;
+  background: #fed7d7;
+  border-radius: 12px;
+  border: 2px dashed #feb2b2;
+  font-size: 1.1rem;
+  font-weight: 600;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Loading State */
+.reservations-list-loading {
+  text-align: center;
+  color: #718096;
+  padding: 2rem;
+  font-size: 1.1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Animations */
+@keyframes reservationsListSlideIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -194,79 +216,72 @@
   }
 }
 
-.reservations-table tbody tr {
-  animation: fadeIn 0.4s ease forwards;
+.reservations-list-table tbody tr {
+  animation: reservationsListSlideIn 0.4s ease forwards;
 }
 
-.reservations-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
-.reservations-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
-.reservations-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
-.reservations-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.reservations-list-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.reservations-list-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.reservations-list-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.reservations-list-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .reservations-container {
-    padding: 1.5rem;
+@media (max-width: 768px) {
+  .reservations-list-wrapper {
+    gap: 1rem;
+    padding: 0.5rem;
   }
   
-  .reservations-table th,
-  .reservations-table td {
-    padding: 0.875rem 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .reservations-container {
+  .reservations-list-card {
     padding: 1.25rem;
     overflow-x: auto;
   }
   
-  .reservations-table {
-    min-width: 700px;
+  .reservations-list-table {
+    min-width: 600px;
   }
   
-  .reservation-actions {
-    flex-direction: column;
-    min-width: 120px;
-  }
-  
-  .action-btn {
-    min-width: 100%;
-    text-align: center;
+  .reservations-list-table th,
+  .reservations-list-table td {
+    padding: 0.875rem 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .reservations-container {
+  .reservations-list-card {
     padding: 1rem;
+    margin: 0 auto;
   }
   
-  .reservations-container h3 {
-    font-size: 1.3rem;
+  .reservations-list-card h3 {
+    font-size: 1.25rem;
+    text-align: center;
   }
   
-  .reservations-table {
-    min-width: 600px;
+  .reservations-list-table {
+    min-width: 550px;
   }
   
-  .reservations-table th,
-  .reservations-table td {
+  .reservations-list-table th,
+  .reservations-list-table td {
     padding: 0.75rem 0.875rem;
     font-size: 0.9rem;
   }
   
-  .status-badge {
-    font-size: 0.75rem;
-    padding: 0.35rem 0.75rem;
+  .reservations-list-status {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+    min-width: 80px;
+  }
+  
+  .reservations-list-view-all-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
   }
 }
 
-/* Performance Optimizations */
-.reservations-container {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.reservations-table {
-  transform: translateZ(0);
+/* Center alignment for main container */
+.reservations-list-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
 }

@@ -94,7 +94,7 @@ export default function Navbar() {
                 <>
                   <li><Link to="/staff/dashboard" onClick={() => setIsMenuOpen(false)}>Staff Dashboard</Link></li>
                   <li><Link to="/staff/orders" onClick={() => setIsMenuOpen(false)}>Orders</Link></li>
-                  <li><Link to="/staff/bookings" onClick={() => setIsMenuOpen(false)}>Bookings</Link></li>
+                  
                 </>
             ) : null}
           </ul>

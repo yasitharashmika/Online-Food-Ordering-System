@@ -1,12 +1,13 @@
-/* src/style/StaffMetrics.css - Clean Professional Light Theme */
-.metrics-container {
+/* === Staff Metrics (sm-) Unique Scoped Styles === */
+
+.sm-metrics-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 25px;
   margin-bottom: 30px;
 }
 
-.metric-card {
+.sm-metric-card {
   background: white;
   padding: 25px;
   border-radius: 16px;
@@ -21,41 +22,33 @@
   border: 1px solid #e2e8f0;
 }
 
-.metric-card::before {
+.sm-metric-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: #48bb78;
+  background: #5aae7d;
   transition: all 0.3s ease;
 }
 
-.metric-card:hover::before {
+.sm-metric-card:hover::before {
   height: 6px;
 }
 
-.metric-card:hover {
+.sm-metric-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
               0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 /* Different accent colors for each card */
-.metric-card:nth-child(1)::before {
-  background: #48bb78;
-}
+.sm-metric-card:nth-child(1)::before { background: #48bb78; }
+.sm-metric-card:nth-child(2)::before { background: #ed8936; }
+.sm-metric-card:nth-child(3)::before { background: #4299e1; }
 
-.metric-card:nth-child(2)::before {
-  background: #ed8936;
-}
-
-.metric-card:nth-child(3)::before {
-  background: #4299e1;
-}
-
-.metric-icon {
+.sm-metric-icon {
   font-size: 2.5rem;
   width: 70px;
   height: 70px;
@@ -70,32 +63,24 @@
   z-index: 2;
 }
 
-.metric-card:hover .metric-icon {
+.sm-metric-card:hover .sm-metric-icon {
   transform: scale(1.1);
   background: white;
   border-color: #48bb78;
 }
 
-/* Icon colors matching the accent colors */
-.metric-card:nth-child(1) .metric-icon {
-  color: #48bb78;
-}
+/* Icon colors */
+.sm-metric-card:nth-child(1) .sm-metric-icon { color: #48bb78; }
+.sm-metric-card:nth-child(2) .sm-metric-icon { color: #ed8936; }
+.sm-metric-card:nth-child(3) .sm-metric-icon { color: #4299e1; }
 
-.metric-card:nth-child(2) .metric-icon {
-  color: #ed8936;
-}
-
-.metric-card:nth-child(3) .metric-icon {
-  color: #4299e1;
-}
-
-.metric-content {
+.sm-metric-content {
   flex: 1;
   position: relative;
   z-index: 2;
 }
 
-.metric-content h3 {
+.sm-metric-content h3 {
   margin: 0 0 8px 0;
   font-size: 2.2rem;
   font-weight: 800;
@@ -103,7 +88,7 @@
   letter-spacing: -0.5px;
 }
 
-.metric-content p {
+.sm-metric-content p {
   margin: 0;
   font-size: 1rem;
   color: #718096;
@@ -112,14 +97,14 @@
   text-transform: uppercase;
 }
 
-/* Remove the floating particles and progress ring effects */
-.metric-card::after,
-.metric-progress {
+/* Hide progress ring */
+.sm-metric-card::after,
+.sm-metric-progress {
   display: none;
 }
 
-/* Loading animation */
-@keyframes cardEntrance {
+/* Entrance animation */
+@keyframes sm-card-entrance {
   from {
     opacity: 0;
     transform: translateY(20px) scale(0.95);
@@ -130,90 +115,90 @@
   }
 }
 
-.metric-card {
-  animation: cardEntrance 0.5s ease-out forwards;
+.sm-metric-card {
+  animation: sm-card-entrance 0.5s ease-out forwards;
 }
 
-.metric-card:nth-child(1) { animation-delay: 0.1s; }
-.metric-card:nth-child(2) { animation-delay: 0.2s; }
-.metric-card:nth-child(3) { animation-delay: 0.3s; }
+.sm-metric-card:nth-child(1) { animation-delay: 0.1s; }
+.sm-metric-card:nth-child(2) { animation-delay: 0.2s; }
+.sm-metric-card:nth-child(3) { animation-delay: 0.3s; }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .metrics-container {
+  .sm-metrics-container {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
   }
-  
-  .metric-card {
+
+  .sm-metric-card {
     padding: 20px;
   }
-  
-  .metric-icon {
+
+  .sm-metric-icon {
     width: 65px;
     height: 65px;
     font-size: 2.2rem;
   }
-  
-  .metric-content h3 {
+
+  .sm-metric-content h3 {
     font-size: 2rem;
   }
 }
 
 @media (max-width: 768px) {
-  .metrics-container {
+  .sm-metrics-container {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
-  .metric-card {
+
+  .sm-metric-card {
     padding: 20px;
     gap: 15px;
   }
-  
-  .metric-icon {
+
+  .sm-metric-icon {
     width: 60px;
     height: 60px;
     font-size: 2rem;
   }
-  
-  .metric-content h3 {
+
+  .sm-metric-content h3 {
     font-size: 1.8rem;
   }
-  
-  .metric-content p {
+
+  .sm-metric-content p {
     font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
-  .metric-card {
+  .sm-metric-card {
     padding: 1.5rem;
     gap: 1rem;
   }
-  
-  .metric-icon {
+
+  .sm-metric-icon {
     width: 55px;
     height: 55px;
     font-size: 1.8rem;
   }
-  
-  .metric-content h3 {
+
+  .sm-metric-content h3 {
     font-size: 1.6rem;
   }
-  
-  .metric-content p {
+
+  .sm-metric-content p {
     font-size: 0.85rem;
   }
 }
 
 /* Performance Optimizations */
-.metric-card {
+.sm-metric-card {
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
-.metric-icon {
+.sm-metric-icon {
   transform: translateZ(0);
   will-change: transform;
 }
