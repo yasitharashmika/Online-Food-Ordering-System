@@ -47,30 +47,24 @@ function Login() {
         setIsError(true);
         return;
       } else if (userData) {
-        // --- UPDATE START: Handle successful user login ---
         setMessage(userData.message || "Login successful!");
         setIsError(false);
-        
-        // Destructure the token and user details from the response data
-        const { token, ...userDetails } = userData.data;
 
-        // 1. Save the token to localStorage. This is the main fix.
+        const { token, ...userDetails } = userData.data;
         localStorage.setItem("token", token);
-        
-        // 2. Save the user details to localStorage.
+        localStorage.setItem("userEmail", userDetails.email);
+        localStorage.setItem("userName", userDetails.name);
         localStorage.setItem("user", JSON.stringify(userDetails));
-        
-        // 3. Redirect to the user dashboard.
+
         setTimeout(() => navigate("/user/dashboard"), 1500);
-        // --- UPDATE END ---
       } else if (staffData) {
-        // --- UPDATE START: Handle successful staff login ---
         setMessage(staffData.message || "Login successful!");
         setIsError(false);
-        
-        const { token, ...staffDetails } = staffData.data;
 
+        const { token, ...staffDetails } = staffData.data;
         localStorage.setItem("token", token);
+        localStorage.setItem("userEmail", staffDetails.email);
+        localStorage.setItem("userName", staffDetails.name);
         localStorage.setItem("user", JSON.stringify(staffDetails));
 
         const role = staffDetails.role?.toLowerCase();
@@ -79,9 +73,8 @@ function Login() {
         } else if (role === "staff") {
           setTimeout(() => navigate("/staff/dashboard"), 1500);
         } else {
-          setTimeout(() => navigate("/"), 1500); // Fallback
+          setTimeout(() => navigate("/"), 1500);
         }
-        // --- UPDATE END ---
       } else {
         let errorMsg = "Login failed. Invalid email or password.";
         if (userResponse.status === "fulfilled" && !userResponse.value.ok) {
@@ -114,8 +107,7 @@ function Login() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group input-with-icon">
-            <i className="fas fa-envelope"></i>
+          <div className="form-group">
             <input
               type="text"
               placeholder="Enter your email"
@@ -125,8 +117,7 @@ function Login() {
             />
           </div>
 
-          <div className="form-group input-with-icon">
-            <i className="fas fa-lock"></i>
+          <div className="form-group">
             <input
               type="password"
               placeholder="Enter your password"
@@ -134,7 +125,6 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <i className="fas fa-eye toggle-password"></i>
           </div>
 
           <div className="remember-forgot">

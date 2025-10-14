@@ -3,9 +3,7 @@ package com.example.onlinefoodorderingsystem.Service.Impl;
 import com.example.onlinefoodorderingsystem.Entity.FoodItem;
 import com.example.onlinefoodorderingsystem.Repository.FoodItemRepository;
 import com.example.onlinefoodorderingsystem.Service.FoodItemService;
-import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,48 +20,54 @@ public class FoodItemServiceImpl implements FoodItemService {
         return foodItemRepository.findAll();
     }
 
+    /**
+     * New method to fetch only items marked as hot deals.
+     * @return A list of food items where isHotDeal is true.
+     */
     @Override
-    public FoodItem addFoodItem(FoodItem item) {
-        FoodItem savedItem = foodItemRepository.save(item);
-        ResponseDTO.builder()
-                .message("Food item added successfully")
-                .data(savedItem)
-                .responseCode(HttpStatus.CREATED)
-                .build();
-        return savedItem;
+    public List<FoodItem> getHotDeals() {
+        return foodItemRepository.findByIsHotDealTrue();
     }
 
     @Override
-    public FoodItem updateFoodItem(Long id, FoodItem item) {
+    public FoodItem addFoodItem(FoodItem item) {
+        // The isHotDeal property is set in the controller before this method is called.
+        return foodItemRepository.save(item);
+    }
+
+    @Override
+    public FoodItem updateFoodItem(Long id, FoodItem itemDetails) {
+        // Find the existing item in the database
         Optional<FoodItem> existingOpt = foodItemRepository.findById(id);
+
         if (existingOpt.isPresent()) {
-            FoodItem existing = existingOpt.get();
-            existing.setName(item.getName());
-            existing.setPrice(item.getPrice());
-            existing.setCategory(item.getCategory());
-            existing.setDescription(item.getDescription());
-            existing.setImageUrl(item.getImageUrl());
+            FoodItem existingItem = existingOpt.get();
 
-            FoodItem updatedItem = foodItemRepository.save(existing);
+            // Update fields from the provided itemDetails
+            existingItem.setName(itemDetails.getName());
+            existingItem.setPrice(itemDetails.getPrice());
+            existingItem.setCategory(itemDetails.getCategory());
+            existingItem.setDescription(itemDetails.getDescription());
 
-            ResponseDTO.builder()
-                    .message("Food item updated successfully")
-                    .data(updatedItem)
-                    .responseCode(HttpStatus.OK)
-                    .build();
+            // ✅ Update the hot deal status
+            existingItem.setHotDeal(itemDetails.isHotDeal());
 
-            return updatedItem;
+            // Only update the image URL if a new one was actually provided in the request.
+            // This prevents accidentally deleting an existing image.
+            if (itemDetails.getImageUrl() != null && !itemDetails.getImageUrl().isEmpty()) {
+                existingItem.setImageUrl(itemDetails.getImageUrl());
+            }
+
+            // Save the updated item back to the database
+            return foodItemRepository.save(existingItem);
         }
+
+        // Return null or throw an exception if the item to update was not found
         return null;
     }
 
     @Override
     public void deleteFoodItem(Long id) {
         foodItemRepository.deleteById(id);
-        ResponseDTO.builder()
-                .message("Food item deleted successfully")
-                .data(null)
-                .responseCode(HttpStatus.OK)
-                .build();
     }
 }

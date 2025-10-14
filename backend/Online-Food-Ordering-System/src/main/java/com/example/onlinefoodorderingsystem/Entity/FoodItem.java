@@ -30,4 +30,8 @@ public class FoodItem {
 
     @Column(length = 255)
     private String imageUrl;
+
+    // --- UPDATE: Added field to mark item as a hot deal ---
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isHotDeal = false;
 }

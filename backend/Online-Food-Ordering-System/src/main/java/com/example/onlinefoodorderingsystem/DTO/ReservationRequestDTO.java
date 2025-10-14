@@ -13,4 +13,7 @@ public class ReservationRequestDTO {
     private int guests;
     private String name;
     private String phone;
+
+    // --- UPDATE: Add field to receive the user's email ---
+    private String userEmail;
 }

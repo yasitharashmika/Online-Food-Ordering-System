@@ -13,11 +13,6 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    /**
-     * Finds reservations that conflict with a requested time slot for a specific table on a given date.
-     * An overlap occurs if an existing reservation's start time is before the new end time,
-     * AND its end time is after the new start time.
-     */
     @Query("SELECT r FROM Reservation r WHERE r.table.id = :tableId AND r.reservationDate = :date " +
             "AND r.startTime < :endTime AND r.endTime > :startTime")
     List<Reservation> findOverlappingReservations(
@@ -26,6 +21,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("startTime") LocalTime startTime,
             @Param("endTime") LocalTime endTime);
 
-    // Finds all reservations for a specific date to check general availability
     List<Reservation> findByReservationDate(LocalDate date);
+
+    // --- NEW METHOD for fetching today's reservations for the dashboard ---
+    List<Reservation> findByReservationDateOrderByStartTimeAsc(LocalDate date);
+
+    List<Reservation> findByUserEmailOrderByReservationDateDesc(String userEmail);
+
+    List<Reservation> findByUserEmailAndReservationDateGreaterThanEqualOrderByReservationDateAsc(String userEmail, LocalDate date);
 }

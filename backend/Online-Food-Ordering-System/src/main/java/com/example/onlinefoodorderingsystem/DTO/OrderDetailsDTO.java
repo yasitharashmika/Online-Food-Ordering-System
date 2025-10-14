@@ -10,21 +10,22 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
-    private Long id;
+public class OrderDetailsDTO {
     private String orderId;
     private LocalDateTime orderDateTime;
     private double totalAmount;
     private String paymentMethod;
     private String orderStatus;
-    private String placedBy; // This remains the customer's email
-    private String tableNumber;
     private List<String> items;
-    private String assignedRider;
 
+    // Customer Details
     private String customerName;
     private String customerPhone;
     private String customerStreet;
     private String customerCity;
     private String customerPostalCode;
+
+    // Rider Details
+    private String assignedRider; // This will be the rider's name
 }
+

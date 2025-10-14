@@ -1,6 +1,6 @@
 import React from "react";
 import StaffSidebar from "./StaffSidebar";
-import NotificationBell from '../NotificationBell'; // ⭐ 1. Import the component
+
 import "../../style/StaffLayout.css";
 
 function StaffLayout({ children, title, subtitle }) {
@@ -15,10 +15,7 @@ function StaffLayout({ children, title, subtitle }) {
             {subtitle && <p className="page-subtitle">{subtitle}</p>}
           </div>
 
-          {/* ⭐ 2. Add the actions container and the notification bell */}
-          <div className="header-actions">
-            <NotificationBell theme="light" showFilters={true} />
-          </div>
+          
         </div>
 
         <div className="staff-content">{children}</div>

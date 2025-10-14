@@ -36,9 +36,7 @@ public class Order {
 
     private String orderStatus = "Ready To Prepare";
 
-    // ✅ Rider handling
     private String assignedRider;
 
-    // ✅ New field to track delivered date/time
     private LocalDateTime deliveredAt;
 }

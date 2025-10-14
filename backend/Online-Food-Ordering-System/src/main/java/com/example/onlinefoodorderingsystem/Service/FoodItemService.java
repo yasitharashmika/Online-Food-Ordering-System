@@ -10,4 +10,7 @@ public interface FoodItemService {
     FoodItem addFoodItem(FoodItem item);
     FoodItem updateFoodItem(Long id, FoodItem item);
     void deleteFoodItem(Long id);
+
+    // --- NEW METHOD: Get items marked as hot deals ---
+    List<FoodItem> getHotDeals();
 }

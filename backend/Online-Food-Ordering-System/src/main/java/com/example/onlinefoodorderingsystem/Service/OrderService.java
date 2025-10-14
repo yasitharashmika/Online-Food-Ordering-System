@@ -16,7 +16,13 @@ public interface OrderService {
     ResponseEntity<ResponseDTO> assignRiderToOrder(Long orderId, String riderEmail);
     List<OrderDTO> getOrdersForRider(String riderEmail);
     List<OrderDTO> getAvailableCODOrders();
-
-    // --- NEW METHOD for Customer Order History ---
     List<OrderDTO> getOrderHistoryForUser(String userEmail);
+
+    // --- NEW METHOD for Order Tracking ---
+    /**
+     * Finds an order by its unique string ID (e.g., #ORD12345).
+     * @param orderId The string ID of the order.
+     * @return The OrderDTO if found, otherwise null.
+     */
+    OrderDTO findByOrderId(String orderId);
 }

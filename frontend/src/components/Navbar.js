@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "../style/Navbar.css";
-import NotificationBell from "./NotificationBell";
+
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -115,7 +115,7 @@ export default function Navbar() {
           )}
           {/* --- UPDATE END --- */}
 
-          {user && <NotificationBell />}
+         
 
           <div
             className={`cr-dropdown ${isDropdownOpen ? "cr-open" : ""}`}

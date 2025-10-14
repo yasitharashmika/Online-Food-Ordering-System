@@ -15,7 +15,6 @@ function StaffSidebar() {
     { path: "/staff/orders", icon: "fas fa-list-alt", label: "All Orders" },
     { path: "/staff/kitchen", icon: "fas fa-utensils", label: "Kitchen" },
     { path: "/staff/cashier", icon: "fas fa-cash-register", label: "Cashier" },
-    { path: "/staff/bookings", icon: "fas fa-calendar-alt", label: "Table Booking" },
     { path: "/staff/rider", icon: "fas fa-motorcycle", label: "Rider" }, // ✅ Added Rider
   ];
 

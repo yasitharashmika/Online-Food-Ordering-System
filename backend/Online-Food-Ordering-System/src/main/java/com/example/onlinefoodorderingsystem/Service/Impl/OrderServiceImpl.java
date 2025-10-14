@@ -200,13 +200,22 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
-    // --- NEW METHOD IMPLEMENTATION for Customer Order History ---
     @Override
     public List<OrderDTO> getOrderHistoryForUser(String userEmail) {
         List<Order> orders = orderRepository.findByPlacedByOrderByOrderDateTimeDesc(userEmail);
         return orders.stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+
+    // --- NEW METHOD IMPLEMENTATION for Order Tracking ---
+    @Override
+    public OrderDTO findByOrderId(String orderId) {
+        Order order = orderRepository.findByOrderId(orderId);
+        if (order != null) {
+            return mapToDTO(order);
+        }
+        return null;
     }
 
     private OrderDTO mapToDTO(Order order) {

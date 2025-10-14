@@ -7,8 +7,8 @@ function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(""); // store success/error message
-  const [isError, setIsError] = useState(false); // flag for error/success
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,20 +16,17 @@ function Signup() {
     setMessage("");
 
     try {
-      // Call Spring Boot API
       const response = await fetch(`${API_BASE_URL}/api/v1/user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await response.json(); // ResponseDTO
+      const data = await response.json();
 
       if (response.ok) {
         setMessage(data.message || "Account created successfully!");
         setIsError(false);
-
-        // optional: redirect after 2 seconds
         setTimeout(() => navigate("/login"), 2000);
       } else {
         setMessage(data.message || "Signup failed. Try again.");
@@ -48,8 +45,7 @@ function Signup() {
         <p className="login-subtitle">Create your account</p>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group input-with-icon">
-            <i className="fas fa-user"></i>
+          <div className="form-group">
             <input
               type="text"
               placeholder="Enter your name"
@@ -59,8 +55,7 @@ function Signup() {
             />
           </div>
 
-          <div className="form-group input-with-icon">
-            <i className="fas fa-envelope"></i>
+          <div className="form-group">
             <input
               type="email"
               placeholder="Enter your email"
@@ -70,8 +65,7 @@ function Signup() {
             />
           </div>
 
-          <div className="form-group input-with-icon">
-            <i className="fas fa-lock"></i>
+          <div className="form-group">
             <input
               type="password"
               placeholder="Enter your password"
@@ -81,7 +75,6 @@ function Signup() {
             />
           </div>
 
-          {/* Show success or error message here */}
           {message && (
             <p className={isError ? "error-message" : "success-message"}>
               {message}

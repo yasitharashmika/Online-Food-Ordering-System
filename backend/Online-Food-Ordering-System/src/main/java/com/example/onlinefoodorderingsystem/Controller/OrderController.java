@@ -4,6 +4,7 @@ import com.example.onlinefoodorderingsystem.DTO.OrderDTO;
 import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
 import com.example.onlinefoodorderingsystem.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    // ... all your existing endpoints are here ...
+    // ... existing endpoints ...
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createOrder(
@@ -79,9 +80,26 @@ public class OrderController {
         return orderService.getAvailableCODOrders();
     }
 
-    // --- NEW ENDPOINT for Customer Order History ---
     @GetMapping("/history/{userEmail}")
     public List<OrderDTO> getOrderHistory(@PathVariable String userEmail) {
         return orderService.getOrderHistoryForUser(userEmail);
+    }
+
+    // --- NEW ENDPOINT for Order Tracking ---
+    @GetMapping("/track/{orderId}")
+    public ResponseEntity<?> trackOrder(@PathVariable String orderId) {
+        // The frontend sends the order ID (e.g., ORD59D9E07D), so we add the '#'
+        OrderDTO orderDetails = orderService.findByOrderId("#" + orderId.toUpperCase());
+
+        if (orderDetails == null) {
+            return new ResponseEntity<>(
+                    ResponseDTO.builder()
+                            .message("Order not found with ID: #" + orderId)
+                            .responseCode(HttpStatus.NOT_FOUND)
+                            .build(),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        return ResponseEntity.ok(orderDetails);
     }
 }

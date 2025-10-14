@@ -19,13 +19,14 @@ import StaffDashboard from './pages/StaffDashboard';
 import KitchenDashboard from './pages/KitchenDashboard';
 import CashierDashboard from './pages/CashierDashboard';
 import OrderProcessing from './pages/OrderProcessing';
-import TableBookingOverview from './pages/TableBookingOverview';
 import RiderDashboard from './pages/RiderDashboard';
 
 import AdminDashboard from './pages/AdminDashboard';
 import AdminUsers from './pages/AdminUsers';
 import AdminOrders from './pages/AdminOrders';
 import MenuManagement from './pages/MenuManagement';
+// --- UPDATE: Import the new AdminReport page ---
+import AdminReport from './pages/AdminReport';
 
 import CustomerDashboard from './pages/CustomerDashboard';
 
@@ -34,7 +35,6 @@ import DashboardOrders from './components/customer/DashboardOrders';
 import DashboardReservations from './components/customer/DashboardReservations';
 import DashboardProfile from './components/customer/DashboardProfile';
 
-// --- UPDATE: Import the new Cart page component ---
 import Cart from './pages/Cart';
 
 
@@ -73,12 +73,11 @@ function LayoutWrapper() {
   const location = useLocation();
   const isStaffPage = location.pathname.startsWith('/staff/');
   const isAdminPage = location.pathname.startsWith('/admin/');
-  const isUserDashboard = location.pathname.startsWith('/user/');
+  
 
   return (
     <>
-      {/* --- UPDATE: Correctly hide Navbar on all dashboard types --- */}
-      {!isStaffPage && !isAdminPage && !isUserDashboard && <Navbar />}
+      {!isStaffPage && !isAdminPage &&  <Navbar />}
 
       <Routes>
         {/* Public Routes */}
@@ -91,7 +90,6 @@ function LayoutWrapper() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
 
-        {/* --- UPDATE: Add the new protected route for the Cart page --- */}
         <Route
           path="/cart"
           element={
@@ -154,14 +152,7 @@ function LayoutWrapper() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/staff/bookings"
-          element={
-            <ProtectedRoute allowedRoles={["staff", "admin"]}>
-              <TableBookingOverview />
-            </ProtectedRoute>
-          }
-        />
+        
         <Route
           path="/staff/rider"
           element={
@@ -204,10 +195,18 @@ function LayoutWrapper() {
             </ProtectedRoute>
           }
         />
+        {/* --- UPDATE: Add the new route for the Admin Report page --- */}
+        <Route
+          path="/admin/reports"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminReport />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
-      {/* --- UPDATE: Correctly hide Footer on all dashboard types --- */}
-      {!isStaffPage && !isAdminPage && !isUserDashboard && <Footer />}
+      {!isStaffPage && !isAdminPage &&  <Footer />}
     </>
   );
 }

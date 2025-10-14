@@ -17,7 +17,6 @@ function ForgotPassword() {
     const staffEndpoint = `${API_BASE_URL}/api/v1/staff/forgot-password`;
 
     try {
-      // Send both requests in parallel
       const [userResp, staffResp] = await Promise.allSettled([
         fetch(userEndpoint, {
           method: "POST",
@@ -39,7 +38,7 @@ function ForgotPassword() {
         role = "user";
       } else if (staffResp.status === "fulfilled" && staffResp.value.ok) {
         successResponse = await staffResp.value.json();
-        role = "staff"; // includes admin if staff endpoint handles admin
+        role = "staff";
       }
 
       if (successResponse) {
@@ -49,7 +48,6 @@ function ForgotPassword() {
         localStorage.setItem("resetRole", role);
         setTimeout(() => navigate("/verify-otp"), 1500);
       } else {
-        // Choose the error message from whichever failed
         let errorMsg = "Email not found.";
         if (userResp.status === "fulfilled" && !userResp.value.ok) {
           const data = await userResp.value.json();
@@ -74,8 +72,7 @@ function ForgotPassword() {
         <p className="login-subtitle">Enter your registered email to reset</p>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group input-with-icon">
-            <i className="fas fa-envelope"></i>
+          <div className="form-group">
             <input
               type="email"
               placeholder="Enter your email"

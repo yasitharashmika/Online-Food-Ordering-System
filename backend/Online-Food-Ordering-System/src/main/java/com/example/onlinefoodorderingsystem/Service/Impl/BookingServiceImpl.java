@@ -3,6 +3,7 @@ package com.example.onlinefoodorderingsystem.Service.Impl;
 import com.example.onlinefoodorderingsystem.DTO.ReservationRequestDTO;
 import com.example.onlinefoodorderingsystem.DTO.ResponseDTO;
 import com.example.onlinefoodorderingsystem.DTO.TableDTO;
+import com.example.onlinefoodorderingsystem.DTO.ReservationDetailsDTO;
 import com.example.onlinefoodorderingsystem.Entity.Reservation;
 import com.example.onlinefoodorderingsystem.Entity.RestaurantTable;
 import com.example.onlinefoodorderingsystem.Repository.ReservationRepository;
@@ -30,8 +31,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<TableDTO> getTableAvailability(LocalDate date, LocalTime fromTime, LocalTime toTime) {
+        // This method remains unchanged
         List<RestaurantTable> allTables = tableRepository.findAll();
-        // Find all reservations for the chosen date to avoid multiple DB calls in a loop
         List<Reservation> reservationsForDate = reservationRepository.findByReservationDate(date);
 
         return allTables.stream().map(table -> {
@@ -53,16 +54,13 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public ResponseEntity<ResponseDTO> createReservation(ReservationRequestDTO requestDTO) {
 
-        // --- UPDATE START: Add validation for time range ---
         if (requestDTO.getToTime().isBefore(requestDTO.getFromTime()) || requestDTO.getToTime().equals(requestDTO.getFromTime())) {
             return new ResponseEntity<>(ResponseDTO.builder()
                     .message("Invalid time range. The 'To' time must be after the 'From' time.")
-                    .responseCode(HttpStatus.BAD_REQUEST) // HTTP 400 Bad Request
+                    .responseCode(HttpStatus.BAD_REQUEST)
                     .build(), HttpStatus.BAD_REQUEST);
         }
-        // --- UPDATE END ---
 
-        // Step 1: Check for conflicting reservations
         List<Reservation> overlapping = reservationRepository.findOverlappingReservations(
                 requestDTO.getTableId(),
                 requestDTO.getDate(),
@@ -77,7 +75,6 @@ public class BookingServiceImpl implements BookingService {
                     .build(), HttpStatus.CONFLICT);
         }
 
-        // Step 2: Find the table entity
         RestaurantTable table = tableRepository.findById(requestDTO.getTableId())
                 .orElse(null);
 
@@ -88,15 +85,17 @@ public class BookingServiceImpl implements BookingService {
                     .build(), HttpStatus.NOT_FOUND);
         }
 
-        // Step 3: Create and save the new reservation
         Reservation newReservation = new Reservation();
         newReservation.setTable(table);
+        newReservation.setUserEmail(requestDTO.getUserEmail());
         newReservation.setCustomerName(requestDTO.getName());
         newReservation.setCustomerPhone(requestDTO.getPhone());
         newReservation.setReservationDate(requestDTO.getDate());
         newReservation.setStartTime(requestDTO.getFromTime());
         newReservation.setEndTime(requestDTO.getToTime());
         newReservation.setNumberOfGuests(requestDTO.getGuests());
+        // --- UPDATE: Set a default status for new reservations ---
+        newReservation.setStatus("Confirmed");
 
         reservationRepository.save(newReservation);
 
@@ -104,5 +103,38 @@ public class BookingServiceImpl implements BookingService {
                 .message("Table booked successfully for " + requestDTO.getName() + "!")
                 .responseCode(HttpStatus.CREATED)
                 .build(), HttpStatus.CREATED);
+    }
+
+    @Override
+    public List<ReservationDetailsDTO> getReservationsByUser(String userEmail) {
+        List<Reservation> reservations = reservationRepository.findByUserEmailOrderByReservationDateDesc(userEmail);
+        return reservations.stream()
+                .map(this::mapToReservationDetailsDTO)
+                .collect(Collectors.toList());
+    }
+
+    // --- NEW METHOD IMPLEMENTATION for the staff dashboard ---
+    @Override
+    public List<ReservationDetailsDTO> getTodaysReservations() {
+        List<Reservation> reservations = reservationRepository.findByReservationDateOrderByStartTimeAsc(LocalDate.now());
+        return reservations.stream()
+                .map(this::mapToReservationDetailsDTO)
+                .collect(Collectors.toList());
+    }
+
+    private ReservationDetailsDTO mapToReservationDetailsDTO(Reservation reservation) {
+        ReservationDetailsDTO dto = new ReservationDetailsDTO();
+        dto.setId(reservation.getId());
+        dto.setTableId(reservation.getTable().getId());
+        // --- UPDATE: Assume RestaurantTable has a getTableName() method ---
+        dto.setTableName(reservation.getTable().getTableName());
+        dto.setCustomerName(reservation.getCustomerName());
+        dto.setReservationDate(reservation.getReservationDate());
+        dto.setStartTime(reservation.getStartTime());
+        dto.setEndTime(reservation.getEndTime());
+        dto.setNumberOfGuests(reservation.getNumberOfGuests());
+        // --- UPDATE: Map the status field ---
+        dto.setStatus(reservation.getStatus());
+        return dto;
     }
 }

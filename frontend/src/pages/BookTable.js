@@ -31,9 +31,15 @@ const BookTablePage = () => {
 
     const guestCount = useMemo(() => parseInt(formData.guests, 10), [formData.guests]);
 
-    // --- UPDATE: Function to fetch table availability from the backend ---
+    // --- NEW: Auto-fill user's name if they are logged in ---
+    useEffect(() => {
+        const loggedInUserName = localStorage.getItem("userName");
+        if (loggedInUserName) {
+            setFormData(prevData => ({ ...prevData, name: loggedInUserName }));
+        }
+    }, []);
+
     const fetchTableAvailability = useCallback(async () => {
-        // Basic validation
         if (!formData.date || !formData.fromTime || !formData.toTime) {
             setError("Please select a valid date and time range.");
             return;
@@ -51,13 +57,12 @@ const BookTablePage = () => {
         } catch (err) {
             console.error("Error fetching table availability:", err);
             setError("Could not fetch table availability. Please try again later.");
-            setTables([]); // Clear tables on error
+            setTables([]);
         } finally {
             setLoading(false);
         }
     }, [formData.date, formData.fromTime, formData.toTime]);
 
-    // --- UPDATE: Fetch tables on initial load and when date/time changes ---
     useEffect(() => {
         fetchTableAvailability();
     }, [fetchTableAvailability]);
@@ -65,7 +70,6 @@ const BookTablePage = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        // Deselect table if guest count changes, as it might become invalid
         if (name === "guests") {
             setSelectedTable(null);
         }
@@ -80,7 +84,7 @@ const BookTablePage = () => {
         }
     };
 
-    // --- UPDATE: Handle form submission to the backend ---
+    // --- UPDATE: Handle form submission to include user's email ---
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!selectedTable) {
@@ -89,6 +93,19 @@ const BookTablePage = () => {
             return;
         }
 
+        // --- Step 1: Get user email from localStorage ---
+        // Assumes you store the email after a successful login like this:
+        // localStorage.setItem("userEmail", response.data.data.email);
+        const userEmail = localStorage.getItem("userEmail");
+
+        // --- Step 2: Validate that the user is logged in ---
+        if (!userEmail) {
+            setModalMessage("⚠️ You must be logged in to book a table. Please log in first.");
+            setShowModal(true);
+            return; // Stop the submission
+        }
+
+        // --- Step 3: Add the email to the request payload ---
         const reservationData = {
             tableId: selectedTable.id,
             date: formData.date,
@@ -97,6 +114,7 @@ const BookTablePage = () => {
             guests: guestCount,
             name: formData.name,
             phone: formData.phone,
+            userEmail: userEmail, // Add the user's email here
         };
 
         try {
@@ -111,7 +129,7 @@ const BookTablePage = () => {
                 fromTime: "19:00",
                 toTime: "21:00",
                 guests: "1",
-                name: "",
+                name: localStorage.getItem("userName") || "", // Keep name if user is logged in
                 phone: "",
             });
             

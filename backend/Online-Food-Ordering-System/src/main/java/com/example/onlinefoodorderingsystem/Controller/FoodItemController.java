@@ -18,7 +18,6 @@ public class FoodItemController {
     @Autowired
     private FoodItemService foodItemService;
 
-    // Updated upload directory (relative to project root)
     private final String uploadDir = new File("uploads").getAbsolutePath() + "/";
 
     @GetMapping("/all")
@@ -26,11 +25,18 @@ public class FoodItemController {
         return foodItemService.getAllFoodItems();
     }
 
+    // --- NEW ENDPOINT for Hot Deals ---
+    @GetMapping("/hot-deals")
+    public List<FoodItem> getHotDeals() {
+        return foodItemService.getHotDeals();
+    }
+
     @PostMapping("/add")
     public FoodItem addFoodItem(@RequestParam String name,
                                 @RequestParam Double price,
                                 @RequestParam String category,
                                 @RequestParam(required = false) String description,
+                                @RequestParam(defaultValue = "false") boolean isHotDeal, // UPDATE
                                 @RequestParam(required = false) MultipartFile image) throws IOException {
 
         FoodItem item = new FoodItem();
@@ -38,19 +44,15 @@ public class FoodItemController {
         item.setPrice(price);
         item.setCategory(category);
         item.setDescription(description);
+        item.setHotDeal(isHotDeal); // UPDATE
 
         if (image != null && !image.isEmpty()) {
             File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs(); // create uploads folder if it doesn't exist
-            }
+            if (!dir.exists()) dir.mkdirs();
 
-            // Generate a safe filename
             String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename().replaceAll("\\s+", "_");
             File file = new File(dir, filename);
             image.transferTo(file);
-
-            // Store relative path for frontend
             item.setImageUrl("/uploads/" + filename);
         }
 
@@ -63,29 +65,27 @@ public class FoodItemController {
                                    @RequestParam Double price,
                                    @RequestParam String category,
                                    @RequestParam(required = false) String description,
+                                   @RequestParam(defaultValue = "false") boolean isHotDeal, // UPDATE
                                    @RequestParam(required = false) MultipartFile image) throws IOException {
 
-        FoodItem item = new FoodItem();
-        item.setName(name);
-        item.setPrice(price);
-        item.setCategory(category);
-        item.setDescription(description);
+        FoodItem itemDetails = new FoodItem();
+        itemDetails.setName(name);
+        itemDetails.setPrice(price);
+        itemDetails.setCategory(category);
+        itemDetails.setDescription(description);
+        itemDetails.setHotDeal(isHotDeal); // UPDATE
 
         if (image != null && !image.isEmpty()) {
             File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs(); // create uploads folder if it doesn't exist
-            }
+            if (!dir.exists()) dir.mkdirs();
 
-            // Generate a safe filename
             String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename().replaceAll("\\s+", "_");
             File file = new File(dir, filename);
             image.transferTo(file);
-
-            item.setImageUrl("/uploads/" + filename);
+            itemDetails.setImageUrl("/uploads/" + filename);
         }
 
-        return foodItemService.updateFoodItem(id, item);
+        return foodItemService.updateFoodItem(id, itemDetails);
     }
 
     @DeleteMapping("/{id}")
