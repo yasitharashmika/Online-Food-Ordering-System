@@ -11,4 +11,7 @@ public class UserDTO {
     private String name;
     private String email;
     private String password;
+
+    // --- UPDATE: Added role field ---
+    private String role;
 }

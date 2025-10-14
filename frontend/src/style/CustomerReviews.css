@@ -1,49 +1,288 @@
-.card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  margin-bottom: 20px;
+/* CustomerReviews.css - Premium Superb Styles */
+.crave-reviews-section {
+  padding: 1.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.crave-reviews-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 60% 40%, rgba(209, 174, 0, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 40% 60%, rgba(229, 109, 13, 0.02) 0%, transparent 50%);
+  z-index: -1;
+}
+
+.crave-reviews-card {
+  background: radial-gradient(circle at top left, rgba(26, 26, 26, 0.95) 0%, rgba(13, 13, 13, 0.98) 100%) !important;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6),
+              0 0 60px rgba(209, 174, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
   color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.card h3 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
+.crave-reviews-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(209, 174, 0, 0.03) 0%, transparent 30%, transparent 70%, rgba(229, 109, 13, 0.03) 100%);
+  pointer-events: none;
+}
+
+.crave-reviews-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7),
+              0 0 80px rgba(209, 174, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.crave-reviews-card h3 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--accent);
+  text-align: center;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(209, 174, 0, 0.3);
+  background: linear-gradient(135deg, #d1ae00 0%, #f4d03f 50%, #d1ae00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
 }
 
-.reviews-grid {
+.crave-reviews-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 30%;
+  width: 40%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e56d0d, transparent);
+  border-radius: 1px;
+}
+
+.crave-reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
-.review-card {
-  background: #222;
+.crave-review-card {
+  background: radial-gradient(circle at top right, rgba(34, 34, 34, 0.9) 0%, rgba(26, 26, 26, 0.95) 100%);
   border-radius: 12px;
-  padding: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-.review-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+.crave-review-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(229, 109, 13, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
-.review-card h4 {
-  font-size: 1.3rem;
-  color: var(--accent);
-  margin-bottom: 5px;
+.crave-review-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
+              0 0 40px rgba(229, 109, 13, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(229, 109, 13, 0.3);
 }
 
-.review-card .rating {
+.crave-review-card h4 {
   font-size: 1.2rem;
-  color: var(--accent);
-  margin-bottom: 10px;
+  color: var(--text-light);
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.review-card .review-text {
+.crave-review-card .crave-rating {
+  font-size: 1.3rem;
+  color: #e56d0d;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(229, 109, 13, 0.5);
+  letter-spacing: 2px;
+}
+
+.crave-review-card .crave-review-text {
   font-size: 1rem;
   color: var(--text-muted);
+  line-height: 1.5;
+  font-weight: 300;
+  letter-spacing: 0.2px;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.crave-review-card .crave-review-text::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -0.5rem;
+  font-size: 2rem;
+  color: rgba(229, 109, 13, 0.3);
+  font-family: serif;
+}
+
+/* Review card decorations */
+.crave-review-card::after {
+  content: '❝';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 2rem;
+  color: rgba(209, 174, 0, 0.1);
+  font-family: serif;
+}
+
+/* Animation Enhancements */
+@keyframes craveFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.crave-reviews-card {
+  animation: craveFadeInUp 0.6s ease-out;
+}
+
+.crave-review-card {
+  animation: craveFadeInUp 0.6s ease-out;
+}
+
+.crave-review-card:nth-child(1) { animation-delay: 0.1s; }
+.crave-review-card:nth-child(2) { animation-delay: 0.2s; }
+.crave-review-card:nth-child(3) { animation-delay: 0.3s; }
+
+/* Star rating animation */
+@keyframes craveStarGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(229, 109, 13, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(229, 109, 13, 0.8);
+  }
+}
+
+.crave-rating {
+  animation: craveStarGlow 2s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .crave-reviews-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .crave-reviews-section {
+    padding: 1rem 0;
+  }
+  
+  .crave-reviews-card {
+    padding: 1.5rem;
+    border-radius: 14px;
+  }
+  
+  .crave-reviews-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .crave-review-card {
+    padding: 1.2rem;
+  }
+  
+  .crave-review-card h4 {
+    font-size: 1.1rem;
+  }
+  
+  .crave-review-card .crave-rating {
+    font-size: 1.2rem;
+  }
+  
+  .crave-review-card .crave-review-text {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .crave-reviews-section {
+    padding: 0.5rem 0;
+  }
+  
+  .crave-reviews-card {
+    padding: 1.2rem;
+    border-radius: 12px;
+  }
+  
+  .crave-reviews-card h3 {
+    font-size: 1.6rem;
+  }
+  
+  .crave-reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .crave-review-card {
+    padding: 1rem;
+  }
+  
+  .crave-review-card h4 {
+    font-size: 1.1rem;
+  }
+  
+  .crave-review-card .crave-rating {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+}
+
+/* Performance Optimizations */
+.crave-reviews-section {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.crave-review-card {
+  transform: translateZ(0);
+  will-change: transform;
 }

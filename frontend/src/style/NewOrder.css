@@ -1,0 +1,160 @@
+/* 🔹 Scoped unique classes for NewOrder page only */
+.new-order-card-unique {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08),
+              0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.new-order-card-unique:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
+              0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.new-order-card-unique h2 {
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.new-order-card-unique h2::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: #48bb78;
+  border-radius: 2px;
+}
+
+/* 🔹 Search Section */
+.new-order-search-section {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.new-order-search-section input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.new-order-search-section input:focus {
+  outline: none;
+  border-color: #48bb78;
+}
+
+/* 🔹 Dropdown Styling */
+.new-order-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.new-order-dropdown li {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.new-order-dropdown li:hover {
+  background: #f7fafc;
+}
+
+/* 🔹 Image Preview in Dropdown */
+.new-order-dropdown-img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+}
+
+/* 🔹 Order Items Section */
+.new-order-items-section table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.new-order-items-section th {
+  background: #f7fafc;
+  padding: 1rem;
+  text-align: left;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.new-order-items-section td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* 🔹 Summary + Buttons */
+.new-order-summary {
+  background: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.new-order-payment-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.new-order-payment-buttons button {
+  background: #48bb78;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.new-order-payment-buttons button:hover {
+  background: #38a169;
+}
+
+/* 🔹 Message Box */
+.new-order-message-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.new-order-success {
+  background: rgba(72, 187, 120, 0.1);
+  color: #276749;
+  border: 1px solid rgba(72, 187, 120, 0.3);
+}
+
+.new-order-error {
+  background: rgba(229, 62, 62, 0.1);
+  color: #c53030;
+  border: 1px solid rgba(229, 62, 62, 0.3);
+}

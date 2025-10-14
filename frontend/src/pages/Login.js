@@ -14,27 +14,77 @@ function Login() {
     e.preventDefault();
     setMessage("");
 
+    const userEndpoint = `${API_BASE_URL}/api/v1/user/login`;
+    const staffEndpoint = `${API_BASE_URL}/api/v1/staff/login`;
+
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/user/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const [userResponse, staffResponse] = await Promise.allSettled([
+        fetch(userEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }),
+        fetch(staffEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }),
+      ]);
 
-      const data = await response.json();
+      let userData = null;
+      let staffData = null;
 
-      if (response.ok) {
-        // Backend sends ResponseDTO: { data, message, responseCode }
-        setMessage(data.message || "Login successful!");
+      if (userResponse.status === "fulfilled" && userResponse.value.ok) {
+        userData = await userResponse.value.json();
+      }
+
+      if (staffResponse.status === "fulfilled" && staffResponse.value.ok) {
+        staffData = await staffResponse.value.json();
+      }
+
+      if (userData && staffData) {
+        setMessage("Account conflict: Credentials match both user and staff. Contact support.");
+        setIsError(true);
+        return;
+      } else if (userData) {
+        setMessage(userData.message || "Login successful!");
         setIsError(false);
 
-        // Save logged-in user (instead of token for now)
-        localStorage.setItem("user", JSON.stringify(data.data));
+        const { token, ...userDetails } = userData.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("userEmail", userDetails.email);
+        localStorage.setItem("userName", userDetails.name);
+        localStorage.setItem("user", JSON.stringify(userDetails));
 
-        // Redirect after 2 sec
-        setTimeout(() => navigate("/"), 2000);
+        setTimeout(() => navigate("/user/dashboard"), 1500);
+      } else if (staffData) {
+        setMessage(staffData.message || "Login successful!");
+        setIsError(false);
+
+        const { token, ...staffDetails } = staffData.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("userEmail", staffDetails.email);
+        localStorage.setItem("userName", staffDetails.name);
+        localStorage.setItem("user", JSON.stringify(staffDetails));
+
+        const role = staffDetails.role?.toLowerCase();
+        if (role === "admin") {
+          setTimeout(() => navigate("/admin/dashboard"), 1500);
+        } else if (role === "staff") {
+          setTimeout(() => navigate("/staff/dashboard"), 1500);
+        } else {
+          setTimeout(() => navigate("/"), 1500);
+        }
       } else {
-        setMessage(data.message || "Login failed. Please try again.");
+        let errorMsg = "Login failed. Invalid email or password.";
+        if (userResponse.status === "fulfilled" && !userResponse.value.ok) {
+          const userErr = await userResponse.value.json();
+          errorMsg = userErr.message || errorMsg;
+        } else if (staffResponse.status === "fulfilled" && !staffResponse.value.ok) {
+          const staffErr = await staffResponse.value.json();
+          errorMsg = staffErr.message || errorMsg;
+        }
+        setMessage(errorMsg);
         setIsError(true);
       }
     } catch (err) {
@@ -57,8 +107,7 @@ function Login() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group input-with-icon">
-            <i className="fas fa-envelope"></i>
+          <div className="form-group">
             <input
               type="text"
               placeholder="Enter your email"
@@ -68,8 +117,7 @@ function Login() {
             />
           </div>
 
-          <div className="form-group input-with-icon">
-            <i className="fas fa-lock"></i>
+          <div className="form-group">
             <input
               type="password"
               placeholder="Enter your password"
@@ -77,7 +125,6 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <i className="fas fa-eye toggle-password"></i>
           </div>
 
           <div className="remember-forgot">

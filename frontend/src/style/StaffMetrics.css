@@ -1,0 +1,219 @@
+/* src/style/StaffMetrics.css - Clean Professional Light Theme */
+.metrics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.metric-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08),
+              0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #48bb78;
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover::before {
+  height: 6px;
+}
+
+.metric-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
+              0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Different accent colors for each card */
+.metric-card:nth-child(1)::before {
+  background: #48bb78;
+}
+
+.metric-card:nth-child(2)::before {
+  background: #ed8936;
+}
+
+.metric-card:nth-child(3)::before {
+  background: #4299e1;
+}
+
+.metric-icon {
+  font-size: 2.5rem;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fafc;
+  border-radius: 16px;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.metric-card:hover .metric-icon {
+  transform: scale(1.1);
+  background: white;
+  border-color: #48bb78;
+}
+
+/* Icon colors matching the accent colors */
+.metric-card:nth-child(1) .metric-icon {
+  color: #48bb78;
+}
+
+.metric-card:nth-child(2) .metric-icon {
+  color: #ed8936;
+}
+
+.metric-card:nth-child(3) .metric-icon {
+  color: #4299e1;
+}
+
+.metric-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.metric-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2d3748;
+  letter-spacing: -0.5px;
+}
+
+.metric-content p {
+  margin: 0;
+  font-size: 1rem;
+  color: #718096;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Remove the floating particles and progress ring effects */
+.metric-card::after,
+.metric-progress {
+  display: none;
+}
+
+/* Loading animation */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.metric-card {
+  animation: cardEntrance 0.5s ease-out forwards;
+}
+
+.metric-card:nth-child(1) { animation-delay: 0.1s; }
+.metric-card:nth-child(2) { animation-delay: 0.2s; }
+.metric-card:nth-child(3) { animation-delay: 0.3s; }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .metrics-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .metric-card {
+    padding: 20px;
+  }
+  
+  .metric-icon {
+    width: 65px;
+    height: 65px;
+    font-size: 2.2rem;
+  }
+  
+  .metric-content h3 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .metric-card {
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  .metric-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+  
+  .metric-content h3 {
+    font-size: 1.8rem;
+  }
+  
+  .metric-content p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .metric-card {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+  
+  .metric-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 1.8rem;
+  }
+  
+  .metric-content h3 {
+    font-size: 1.6rem;
+  }
+  
+  .metric-content p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Performance Optimizations */
+.metric-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.metric-icon {
+  transform: translateZ(0);
+  will-change: transform;
+}

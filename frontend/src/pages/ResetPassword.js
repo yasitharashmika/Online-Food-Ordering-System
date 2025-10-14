@@ -9,12 +9,19 @@ function ResetPassword() {
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
   const email = localStorage.getItem("resetEmail");
+  const role = localStorage.getItem("resetRole");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+
+    const endpoint =
+      role === "staff"
+        ? `${API_BASE_URL}/api/v1/staff/reset-password`
+        : `${API_BASE_URL}/api/v1/user/reset-password`;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/user/reset-password`, {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, newPassword: password }),
@@ -26,6 +33,7 @@ function ResetPassword() {
         setMessage("Password changed successfully!");
         setIsError(false);
         localStorage.removeItem("resetEmail");
+        localStorage.removeItem("resetRole");
         setTimeout(() => navigate("/login"), 2000);
       } else {
         setMessage(data.message || "Failed to reset password.");

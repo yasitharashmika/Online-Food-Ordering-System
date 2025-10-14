@@ -1,41 +1,339 @@
-.card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  margin-bottom: 20px;
+/* AboutSection.css - Premium Superb Styles */
+.crave-about-section {
+  padding: 1.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.crave-about-section::before {
+
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(209, 174, 0, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(229, 109, 13, 0.02) 0%, transparent 50%);
+  z-index: -1;
+}
+
+.crave-about-card {
+  background: radial-gradient(circle at top left, rgba(26, 26, 26, 0.95) 0%, rgba(13, 13, 13, 0.98) 100%) !important;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6),
+              0 0 60px rgba(209, 174, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
   color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.card h3 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
+.crave-about-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(209, 174, 0, 0.03) 0%, transparent 30%, transparent 70%, rgba(229, 109, 13, 0.03) 100%);
+  pointer-events: none;
+}
+
+.crave-about-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7),
+              0 0 80px rgba(209, 174, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.crave-about-card h3 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--accent);
+  text-align: center;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(209, 174, 0, 0.3);
+  background: linear-gradient(135deg, #d1ae00 0%, #f4d03f 50%, #d1ae00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
 }
 
-.about-grid {
+.crave-about-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 30%;
+  width: 40%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e56d0d, transparent);
+  border-radius: 1px;
+}
+
+.crave-about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  align-items: start;
 }
 
-.about-text p {
+.crave-about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.crave-about-text > p {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  font-weight: 300;
+  letter-spacing: 0.2px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.crave-about-details {
+  background: radial-gradient(circle at top right, rgba(34, 34, 34, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.crave-about-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(229, 109, 13, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.crave-about-details:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(229, 109, 13, 0.15);
+  border-color: rgba(229, 109, 13, 0.2);
+}
+
+.crave-about-details h4 {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: inline-block;
+}
+
+.crave-about-details h4::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #e56d0d, transparent);
+  border-radius: 1px;
+}
+
+.crave-about-details p {
   font-size: 1rem;
   color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+  position: relative;
+  padding-left: 1.5rem;
 }
 
-.about-details h4 {
-  font-size: 1.2rem;
-  color: var(--accent);
-  margin-bottom: 5px;
+.crave-about-details p::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #e56d0d;
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
-.about-map .map-placeholder {
-  background: #222;
-  color: var(--text-muted);
-  height: 200px;
-  border-radius: 8px;
+.crave-about-map {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.crave-about-map iframe {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(209, 174, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease;
+  filter: brightness(0.9) contrast(1.1);
+}
+
+.crave-about-map iframe:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5),
+              0 0 40px rgba(209, 174, 0, 0.2);
+  filter: brightness(1) contrast(1.2);
+}
+
+/* Icon decorations */
+.crave-about-details:first-child::after {
+  content: '🕒';
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  font-size: 1.3rem;
+  opacity: 0.1;
+}
+
+.crave-about-details:last-child::after {
+  content: '📍';
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  font-size: 1.3rem;
+  opacity: 0.1;
+}
+
+/* Animation Enhancements */
+@keyframes craveFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.crave-about-card {
+  animation: craveFadeInUp 0.6s ease-out;
+}
+
+.crave-about-text {
+  animation: craveFadeInUp 0.6s ease-out 0.2s both;
+}
+
+.crave-about-map {
+  animation: craveFadeInUp 0.6s ease-out 0.4s both;
+}
+
+/* Focus States for Accessibility */
+.crave-about-card:focus-within {
+  outline: 2px solid #e56d0d;
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .crave-about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .crave-about-map iframe {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .crave-about-section {
+    padding: 1rem 0;
+  }
+  
+  .crave-about-card {
+    padding: 1.5rem;
+    border-radius: 14px;
+  }
+  
+  .crave-about-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .crave-about-text {
+    gap: 1.2rem;
+  }
+  
+  .crave-about-text > p {
+    font-size: 1rem;
+  }
+  
+  .crave-about-details {
+    padding: 1.2rem;
+  }
+  
+  .crave-about-details h4 {
+    font-size: 1.1rem;
+  }
+  
+  .crave-about-details p {
+    font-size: 0.95rem;
+  }
+  
+  .crave-about-map iframe {
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .crave-about-section {
+    padding: 0.5rem 0;
+  }
+  
+  .crave-about-card {
+    padding: 1.2rem;
+    border-radius: 12px;
+  }
+  
+  .crave-about-card h3 {
+    font-size: 1.6rem;
+  }
+  
+  .crave-about-text > p {
+    font-size: 0.95rem;
+  }
+  
+  .crave-about-details {
+    padding: 1rem;
+  }
+  
+  .crave-about-map iframe {
+    height: 180px;
+  }
+}
+
+/* Performance Optimizations */
+.crave-about-section {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.crave-about-card {
+  transform: translateZ(0);
 }

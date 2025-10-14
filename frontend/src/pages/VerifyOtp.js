@@ -9,12 +9,19 @@ function VerifyOtp() {
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
   const email = localStorage.getItem("resetEmail");
+  const role = localStorage.getItem("resetRole"); // user or staff
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+
+    const endpoint =
+      role === "staff"
+        ? `${API_BASE_URL}/api/v1/staff/verify-otp`
+        : `${API_BASE_URL}/api/v1/user/verify-otp`;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/user/verify-otp`, {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),

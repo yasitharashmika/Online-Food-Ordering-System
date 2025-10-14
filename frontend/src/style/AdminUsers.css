@@ -1,0 +1,70 @@
+.admin-users-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.create-staff-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.create-staff-form input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.create-staff-form button {
+  background: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.create-staff-form button:hover {
+  background: #0056b3;
+}
+
+.message {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.staff-list-card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.staff-list-card th,
+.staff-list-card td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.delete-btn {
+  background: #888888;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #b6b6b6;
+}

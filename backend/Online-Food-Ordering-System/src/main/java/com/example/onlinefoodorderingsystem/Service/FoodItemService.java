@@ -1,0 +1,16 @@
+package com.example.onlinefoodorderingsystem.Service;
+
+import com.example.onlinefoodorderingsystem.Entity.FoodItem;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+
+public interface FoodItemService {
+    List<FoodItem> getAllFoodItems();
+    FoodItem addFoodItem(FoodItem item);
+    FoodItem updateFoodItem(Long id, FoodItem item);
+    void deleteFoodItem(Long id);
+
+    // --- NEW METHOD: Get items marked as hot deals ---
+    List<FoodItem> getHotDeals();
+}
