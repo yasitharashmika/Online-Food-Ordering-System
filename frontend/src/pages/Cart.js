@@ -14,8 +14,6 @@ const Cart = () => {
     const [deliveryDetails, setDeliveryDetails] = useState({ phone: '', street: '', city: '', postalCode: '' });
     const navigate = useNavigate();
 
-    // --- UPDATE 1: Create a reusable function to fetch cart items ---
-    // We use useCallback to prevent this function from being recreated on every render
     const fetchCartItems = useCallback(async (email) => {
         try {
             const cartRes = await axios.get(`${API_BASE_URL}/api/v1/cart/${email}`);
@@ -36,9 +34,8 @@ const Cart = () => {
 
         const fetchInitialData = async () => {
             setLoading(true);
-            // Fetch both cart and profile in parallel
             try {
-                await fetchCartItems(loggedInUser.email); // Use the new function
+                await fetchCartItems(loggedInUser.email);
 
                 const profileRes = await axios.get(`${API_BASE_URL}/api/v1/user/profile/${loggedInUser.email}`);
                 const profile = profileRes.data.data;
@@ -57,18 +54,15 @@ const Cart = () => {
         };
 
         fetchInitialData();
-    }, [navigate, fetchCartItems]); // Add fetchCartItems to the dependency array
+    }, [navigate, fetchCartItems]);
 
-    // --- UPDATE 2: Fix the decrement bug and refetch data after update ---
     const handleQuantityChange = async (itemId, newQuantity) => {
-        // If quantity is 0 or less, treat it as a removal
         if (newQuantity < 1) {
             handleRemoveItem(itemId);
             return;
         }
         try {
             await axios.put(`${API_BASE_URL}/api/v1/cart/update/${itemId}`, { quantity: newQuantity });
-            // Instead of manually updating state, refetch the cart for reliability
             if (user) {
                 fetchCartItems(user.email);
             }
@@ -78,11 +72,9 @@ const Cart = () => {
         }
     };
     
-    // --- UPDATE 3: Refetch data after removing an item ---
     const handleRemoveItem = async (itemId) => {
         try {
             await axios.delete(`${API_BASE_URL}/api/v1/cart/remove/${itemId}`);
-            // Refetch the cart to ensure the UI is in sync with the database
             if (user) {
                 fetchCartItems(user.email);
             }
@@ -92,13 +84,11 @@ const Cart = () => {
         }
     };
     
-    // This function doesn't need changes
     const handleDetailChange = (e) => {
         const { name, value } = e.target;
         setDeliveryDetails(prev => ({ ...prev, [name]: value }));
     };
 
-    // This function doesn't need changes
     const handlePlaceOrder = async () => {
         if (paymentMethod === 'COD' && (!deliveryDetails.phone || !deliveryDetails.street || !deliveryDetails.city)) {
             alert('Please fill in your phone and address for delivery.');
@@ -142,15 +132,30 @@ const Cart = () => {
         return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     }, [cartItems]);
 
-    if (loading) return <p className="cart-loading">Loading your cart...</p>;
-    if (error) return <p className="cart-error">{error}</p>;
+    if (loading) return (
+        <div className="cart-wrapper">
+            <div className="cart-container">
+                <p className="cart-loading">Loading your cart...</p>
+            </div>
+        </div>
+    );
+    
+    if (error) return (
+        <div className="cart-wrapper">
+            <div className="cart-container">
+                <p className="cart-error">{error}</p>
+            </div>
+        </div>
+    );
 
     return (
-        <div className="cart-page">
+        <div className="cart-wrapper">
             <div className="cart-container">
                 <h1 className="cart-title">Your Shopping Cart</h1>
                 {cartItems.length === 0 ? (
-                    <p>Your cart is empty. Go to the <a href="/menu">menu</a> to add items.</p>
+                    <p className="cart-empty-message">
+                        Your cart is empty. Go to the <a href="/menu">menu</a> to add items.
+                    </p>
                 ) : (
                     <>
                         <div className="cart-items-list">
@@ -161,48 +166,129 @@ const Cart = () => {
                                         <p>${item.price.toFixed(2)}</p>
                                     </div>
                                     <div className="cart-item-actions">
-                                        <div className="quantity-control">
-                                            <button onClick={() => handleQuantityChange(item.id, item.quantity - 1)}>-</button>
-                                            <span>{item.quantity}</span>
-                                            <button onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
+                                        <div className="cart-quantity-control">
+                                            <button 
+                                                className="cart-quantity-btn"
+                                                onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                            >
+                                                -
+                                            </button>
+                                            <span className="cart-quantity-display">{item.quantity}</span>
+                                            <button 
+                                                className="cart-quantity-btn"
+                                                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                            >
+                                                +
+                                            </button>
                                         </div>
-                                        <p className="item-total">${(item.price * item.quantity).toFixed(2)}</p>
-                                        <button className="remove-btn" onClick={() => handleRemoveItem(item.id)}>Remove</button>
+                                        <p className="cart-item-total">${(item.price * item.quantity).toFixed(2)}</p>
+                                        <button 
+                                            className="cart-remove-btn" 
+                                            onClick={() => handleRemoveItem(item.id)}
+                                        >
+                                            Remove
+                                        </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                         <div className="cart-summary">
                             <h2>Order Summary</h2>
-                            <p>Subtotal: <span>${subtotal.toFixed(2)}</span></p>
+                            <div className="cart-subtotal">
+                                <span>Subtotal:</span>
+                                <span>${subtotal.toFixed(2)}</span>
+                            </div>
                             
-                            <div className="checkout-options">
+                            <div className="cart-checkout-options">
                                 <h3>Checkout Options</h3>
-                                <div className="payment-methods">
-                                    <label><input type="radio" value="COD" checked={paymentMethod === 'COD'} onChange={(e) => setPaymentMethod(e.target.value)} /> Cash on Delivery (COD)</label>
-                                    <label><input type="radio" value="Pickup" checked={paymentMethod === 'Pickup'} onChange={(e) => setPaymentMethod(e.target.value)} /> Pickup</label>
-                                    <label><input type="radio" value="Table" checked={paymentMethod === 'Table'} onChange={(e) => setPaymentMethod(e.target.value)} /> For Table</label>
+                                <div className="cart-payment-methods">
+                                    <label>
+                                        <input 
+                                            type="radio" 
+                                            value="COD" 
+                                            checked={paymentMethod === 'COD'} 
+                                            onChange={(e) => setPaymentMethod(e.target.value)} 
+                                        /> 
+                                        Cash on Delivery (COD)
+                                    </label>
+                                    <label>
+                                        <input 
+                                            type="radio" 
+                                            value="Pickup" 
+                                            checked={paymentMethod === 'Pickup'} 
+                                            onChange={(e) => setPaymentMethod(e.target.value)} 
+                                        /> 
+                                        Pickup
+                                    </label>
+                                    <label>
+                                        <input 
+                                            type="radio" 
+                                            value="Table" 
+                                            checked={paymentMethod === 'Table'} 
+                                            onChange={(e) => setPaymentMethod(e.target.value)} 
+                                        /> 
+                                        For Table
+                                    </label>
                                 </div>
 
                                 {paymentMethod === 'COD' && (
-                                    <div className="delivery-details-form">
+                                    <div className="cart-delivery-form">
                                         <h4>Delivery Details</h4>
-                                        <input type="tel" name="phone" value={deliveryDetails.phone} onChange={handleDetailChange} placeholder="Phone Number" required />
-                                        <input type="text" name="street" value={deliveryDetails.street} onChange={handleDetailChange} placeholder="Street Address" required />
-                                        <input type="text" name="city" value={deliveryDetails.city} onChange={handleDetailChange} placeholder="City" required />
-                                        <input type="text" name="postalCode" value={deliveryDetails.postalCode} onChange={handleDetailChange} placeholder="Postal Code" />
+                                        <input 
+                                            type="tel" 
+                                            name="phone" 
+                                            value={deliveryDetails.phone} 
+                                            onChange={handleDetailChange} 
+                                            placeholder="Phone Number" 
+                                            required 
+                                            className="cart-form-input"
+                                        />
+                                        <input 
+                                            type="text" 
+                                            name="street" 
+                                            value={deliveryDetails.street} 
+                                            onChange={handleDetailChange} 
+                                            placeholder="Street Address" 
+                                            required 
+                                            className="cart-form-input"
+                                        />
+                                        <input 
+                                            type="text" 
+                                            name="city" 
+                                            value={deliveryDetails.city} 
+                                            onChange={handleDetailChange} 
+                                            placeholder="City" 
+                                            required 
+                                            className="cart-form-input"
+                                        />
+                                        <input 
+                                            type="text" 
+                                            name="postalCode" 
+                                            value={deliveryDetails.postalCode} 
+                                            onChange={handleDetailChange} 
+                                            placeholder="Postal Code" 
+                                            className="cart-form-input"
+                                        />
                                     </div>
                                 )}
 
                                 {paymentMethod === 'Table' && (
-                                    <div className="table-number-form">
+                                    <div className="cart-table-form">
                                         <h4>Table Information</h4>
-                                        <input type="text" value={tableNumber} onChange={(e) => setTableNumber(e.target.value)} placeholder="Enter Your Table Number" />
+                                        <input 
+                                            type="text" 
+                                            value={tableNumber} 
+                                            onChange={(e) => setTableNumber(e.target.value)} 
+                                            placeholder="Enter Your Table Number" 
+                                            className="cart-form-input"
+                                        />
                                     </div>
                                 )}
                             </div>
                             
-                            <button className="place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
+                            <button className="cart-place-order-btn" onClick={handlePlaceOrder}>
+                                Place Order
+                            </button>
                         </div>
                     </>
                 )}

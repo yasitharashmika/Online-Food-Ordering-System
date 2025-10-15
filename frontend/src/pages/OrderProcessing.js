@@ -34,97 +34,160 @@ function OrderProcessing() {
       );
       if (!response.ok) throw new Error("Failed to update order status");
 
-      setOrders(orders.map(order =>
-        order.id === orderId ? { ...order, orderStatus: newStatus } : order
-      ));
+      setOrders((orders) =>
+        orders.map((order) =>
+          order.id === orderId ? { ...order, orderStatus: newStatus } : order
+        )
+      );
     } catch (error) {
       console.error("Error updating order status:", error);
     }
   };
 
-  const notifyRider = (orderId) => {
-    alert(`Rider notified for order ${orderId}`);
-  };
-
-  const filteredOrders = filter === "all" 
-    ? orders 
-    : orders.filter(order => order.orderStatus.toLowerCase() === filter);
+  const filteredOrders =
+    filter === "all"
+      ? orders
+      : orders.filter(
+          (order) => order.orderStatus.toLowerCase() === filter
+        );
 
   // Sort so newly received orders appear first, then by time
   const sortedOrders = filteredOrders.sort((a, b) => {
-    if (a.orderStatus === "Ready To Prepare" && b.orderStatus !== "Ready To Prepare") return -1;
-    if (a.orderStatus !== "Ready To Prepare" && b.orderStatus === "Ready To Prepare") return 1;
+    if (
+      a.orderStatus === "Ready To Prepare" &&
+      b.orderStatus !== "Ready To Prepare"
+    )
+      return -1;
+    if (
+      a.orderStatus !== "Ready To Prepare" &&
+      b.orderStatus === "Ready To Prepare"
+    )
+      return 1;
     return new Date(b.orderDateTime) - new Date(a.orderDateTime);
   });
 
   const getStatusClass = (status) => {
-    switch(status.toLowerCase()) {
-      case "ready to prepare": return "status status-received";
-      case "preparing": return "status status-preparing";
-      case "ready": return "status status-ready";
-      case "completed": return "status status-completed";
-      default: return "status";
+    switch (status.toLowerCase()) {
+      case "ready to prepare":
+        return "order-processing-status order-processing-status-received";
+      case "preparing":
+        return "order-processing-status order-processing-status-preparing";
+      case "ready":
+        return "order-processing-status order-processing-status-ready";
+      case "completed":
+        return "order-processing-status order-processing-status-completed";
+      default:
+        return "order-processing-status";
     }
   };
 
   const getStatusOptions = (currentStatus) => {
     const statusFlow = {
       "ready to prepare": ["preparing"],
-      "preparing": ["ready"],
-      "ready": ["completed"],
-      "completed": []
+      preparing: ["ready"],
+      ready: ["completed"],
+      completed: [],
     };
     return statusFlow[currentStatus.toLowerCase()] || [];
   };
 
   return (
-    <StaffLayout title="Order Processing" subtitle="Update kitchen order statuses">
-      <div className="card">
-        <div className="filter-buttons">
-          <button className={`btn ${filter === "all" ? "" : "btn-secondary"}`} onClick={() => setFilter("all")}>All Orders</button>
-          <button className={`btn ${filter === "ready to prepare" ? "" : "btn-secondary"}`} onClick={() => setFilter("ready to prepare")}>Received</button>
-          <button className={`btn ${filter === "preparing" ? "" : "btn-secondary"}`} onClick={() => setFilter("preparing")}>Preparing</button>
-          <button className={`btn ${filter === "ready" ? "" : "btn-secondary"}`} onClick={() => setFilter("ready")}>Ready</button>
-        </div>
+    <StaffLayout
+      title="Order Processing"
+      subtitle="Update kitchen order statuses"
+    >
+      <div className="order-processing-wrapper">
+        <div className="order-processing-card">
+          <div className="order-processing-filter-buttons">
+            <button
+              className={`order-processing-btn ${
+                filter === "all" ? "" : "order-processing-btn-secondary"
+              }`}
+              onClick={() => setFilter("all")}
+            >
+              All Orders
+            </button>
+            <button
+              className={`order-processing-btn ${
+                filter === "ready to prepare" ? "" : "order-processing-btn-secondary"
+              }`}
+              onClick={() => setFilter("ready to prepare")}
+            >
+              Received
+            </button>
+            <button
+              className={`order-processing-btn ${
+                filter === "preparing" ? "" : "order-processing-btn-secondary"
+              }`}
+              onClick={() => setFilter("preparing")}
+            >
+              Preparing
+            </button>
+            <button
+              className={`order-processing-btn ${
+                filter === "ready" ? "" : "order-processing-btn-secondary"
+              }`}
+              onClick={() => setFilter("ready")}
+            >
+              Ready
+            </button>
+          </div>
 
-        <div className="orders-grid">
-          {sortedOrders.map(order => (
-            <div key={order.id} className="order-card" style={{ borderLeft: `4px solid ${
-              order.orderStatus.toLowerCase() === "ready" ? "var(--success)" : 
-              order.orderStatus.toLowerCase() === "preparing" ? "var(--warning)" : 
-              "var(--info)"
-            }` }}>
-              <div className="order-card-content">
-                <div className="order-info">
-                  <h3>{order.orderId} <span className="order-type-badge">{order.tableNumber ? `Table ${order.tableNumber}` : "Takeaway"}</span></h3>
-                  <p><strong>Placed By:</strong> {order.placedBy}</p>
-                  <p><strong>Time:</strong> {new Date(order.orderDateTime).toLocaleTimeString()}</p>
-                  <p><strong>Items:</strong></p>
-                  <ul>
-                    {order.items.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))}
-                  </ul>
-                  <p><strong>Total:</strong> ${order.totalAmount}</p>
-                </div>
-                <div className="order-controls">
-                  <span className={getStatusClass(order.orderStatus)}>
-                    {order.orderStatus}
-                  </span>
-                  <div className="action-buttons">
-                    {getStatusOptions(order.orderStatus).map(status => (
-                      <button key={status} className="btn btn-success" onClick={() => updateOrderStatus(order.id, status)}>
-                        Mark as {status.charAt(0).toUpperCase() + status.slice(1)}
-                      </button>
-                    ))}
-                    {order.orderStatus.toLowerCase() === "ready" && (
-                      <button className="btn btn-warning" onClick={() => notifyRider(order.id)}>Notify Rider</button>
-                    )}
+          <div className="order-processing-orders-grid">
+            {sortedOrders.map((order) => (
+              <div key={order.id} className="order-processing-order-card">
+                <div className="order-processing-order-card-content">
+                  <div className="order-processing-order-info">
+                    <h3>
+                      {order.orderId}
+                      <span className="order-processing-order-type-badge">
+                        {order.tableNumber
+                          ? `Table ${order.tableNumber}`
+                          : "Takeaway"}
+                      </span>
+                    </h3>
+                    <p>
+                      <strong>Placed By:</strong> {order.placedBy}
+                    </p>
+                    <p>
+                      <strong>Time:</strong>{" "}
+                      {new Date(order.orderDateTime).toLocaleTimeString()}
+                    </p>
+                    <p>
+                      <strong>Items:</strong>
+                    </p>
+                    <ul>
+                      {order.items.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                    <p>
+                      <strong>Total:</strong> ${order.totalAmount}
+                    </p>
+                  </div>
+                  <div className="order-processing-order-controls">
+                    <span className={getStatusClass(order.orderStatus)}>
+                      {order.orderStatus}
+                    </span>
+                    <div className="order-processing-action-buttons">
+                      {getStatusOptions(order.orderStatus).map((status) => (
+                        <button
+                          key={status}
+                          className="order-processing-btn order-processing-btn-success"
+                          onClick={() =>
+                            updateOrderStatus(order.id, status)
+                          }
+                        >
+                          Mark as{" "}
+                          {status.charAt(0).toUpperCase() + status.slice(1)}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </StaffLayout>

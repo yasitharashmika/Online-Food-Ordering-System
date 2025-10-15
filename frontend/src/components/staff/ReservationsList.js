@@ -22,7 +22,6 @@ function ReservationsList({ showViewAll = true }) {
             try {
                 setLoading(true);
                 setError(null);
-                // --- UPDATE: Pointing to your new endpoint ---
                 const response = await axios.get("http://localhost:8080/api/v1/booking/today");
                 setReservations(response.data);
             } catch (err) {
@@ -37,74 +36,74 @@ function ReservationsList({ showViewAll = true }) {
     }, []);
 
     const getStatusClass = (status) => {
-        // --- UPDATE: Changed status values to match your backend logic ---
         switch (status?.toLowerCase()) {
-            case "confirmed": return "status status-ready";
-            case "seated": return "status status-preparing";
-            case "completed": return "status status-completed";
-            default: return "status";
+            case "confirmed": return "reservations-list-status reservations-list-status-confirmed";
+            case "seated": return "reservations-list-status reservations-list-status-seated";
+            case "completed": return "reservations-list-status reservations-list-status-completed";
+            default: return "reservations-list-status";
         }
     };
 
     if (loading) {
         return (
-            <div className="card">
-                <h3>Today's Reservations</h3>
-                <p>Loading...</p>
+            <div className="reservations-list-wrapper">
+                <div className="reservations-list-card">
+                    <h3>Today's Reservations</h3>
+                    <p className="reservations-list-loading">Loading...</p>
+                </div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="card">
-                <h3>Today's Reservations</h3>
-                <p className="no-reservations error">{error}</p>
+            <div className="reservations-list-wrapper">
+                <div className="reservations-list-card">
+                    <h3>Today's Reservations</h3>
+                    <p className="reservations-list-error">{error}</p>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="card">
-            <h3>Today's Reservations</h3>
-            {reservations.length === 0 ? (
-                <p className="no-reservations">No reservations for today</p>
-            ) : (
-                <>
-                    <table className="data-table">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Customer</th>
-                                <th>Guests</th>
-                                <th>Table</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* --- UPDATE: Using fields from your ReservationDetailsDTO --- */}
-                            {reservations.map(reservation => (
-                                <tr key={reservation.id}>
-                                    <td>{formatTime(reservation.startTime)}</td>
-                                    <td>{reservation.customerName}</td>
-                                    <td>{reservation.numberOfGuests}</td>
-                                    <td>{reservation.tableName}</td>
-                                    <td>
-                                        <span className={getStatusClass(reservation.status)}>
-                                            {reservation.status}
-                                        </span>
-                                    </td>
+        <div className="reservations-list-wrapper">
+            <div className="reservations-list-card">
+                <h3>Today's Reservations</h3>
+                {reservations.length === 0 ? (
+                    <p className="reservations-list-no-reservations">No reservations for today</p>
+                ) : (
+                    <>
+                        <table className="reservations-list-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Customer</th>
+                                    <th>Guests</th>
+                                    <th>Table</th>
+                                    <th>Status</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {showViewAll && (
-                        <Link to="/staff/bookings" className="btn view-all-btn">
-                            Manage Bookings
-                        </Link>
-                    )}
-                </>
-            )}
+                            </thead>
+                            <tbody>
+                                {reservations.map(reservation => (
+                                    <tr key={reservation.id}>
+                                        <td>{formatTime(reservation.startTime)}</td>
+                                        <td>{reservation.customerName}</td>
+                                        <td>{reservation.numberOfGuests}</td>
+                                        <td>{reservation.tableName}</td>
+                                        <td>
+                                            <span className={getStatusClass(reservation.status)}>
+                                                {reservation.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                       
+                    </>
+                )}
+            </div>
         </div>
     );
 }

@@ -133,113 +133,115 @@ function NewOrder({ addOrder }) {
   };
 
   return (
-    <div className="new-order-container new-order-card-unique">
-      <h2>New Order</h2>
+    <div className="new-order-wrapper">
+      <div className="new-order-card">
+        <h2>New Order</h2>
 
-      {/* ✅ Search Section */}
-      <div className="new-order-search-section">
-        <input
-          type="text"
-          placeholder="Search food..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {filteredItems.length > 0 && (
-          <ul className="new-order-dropdown">
-            {filteredItems.map((item) => (
-              <li key={item.id} onClick={() => addItem(item)}>
-                {item.imageUrl ? (
-                  <img
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className="new-order-dropdown-img"
-                    onError={(e) => {
-                      e.target.src = "/placeholder.png";
-                    }}
-                  />
-                ) : (
-                  <img
-                    src="/placeholder.png"
-                    alt="No preview"
-                    className="new-order-dropdown-img"
-                  />
-                )}
-                <span>
-                  {item.name} (${item.price})
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {/* ✅ Order Items Section */}
-      <div className="new-order-items-section">
-        {orderItems.length > 0 ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orderItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>${item.price}</td>
-                  <td>
-                    <input
-                      type="number"
-                      min="1"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        updateQuantity(item.id, e.target.value)
-                      }
+        {/* ✅ Search Section */}
+        <div className="new-order-search-section">
+          <input
+            type="text"
+            placeholder="Search food..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {filteredItems.length > 0 && (
+            <ul className="new-order-dropdown">
+              {filteredItems.map((item) => (
+                <li key={item.id} onClick={() => addItem(item)}>
+                  {item.imageUrl ? (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="new-order-dropdown-img"
+                      onError={(e) => {
+                        e.target.src = "/placeholder.png";
+                      }}
                     />
-                  </td>
-                  <td>${(item.price * item.quantity).toFixed(2)}</td>
-                  <td>
-                    <button onClick={() => removeItem(item.id)}>X</button>
-                  </td>
-                </tr>
+                  ) : (
+                    <img
+                      src="/placeholder.png"
+                      alt="No preview"
+                      className="new-order-dropdown-img"
+                    />
+                  )}
+                  <span>
+                    {item.name} (${item.price})
+                  </span>
+                </li>
               ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No items added yet.</p>
+            </ul>
+          )}
+        </div>
+
+        {/* ✅ Order Items Section */}
+        <div className="new-order-items-section">
+          {orderItems.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Qty</th>
+                  <th>Total</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderItems.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>${item.price}</td>
+                    <td>
+                      <input
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateQuantity(item.id, e.target.value)
+                        }
+                      />
+                    </td>
+                    <td>${(item.price * item.quantity).toFixed(2)}</td>
+                    <td>
+                      <button onClick={() => removeItem(item.id)}>X</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No items added yet.</p>
+          )}
+        </div>
+
+        {/* ✅ Order Summary */}
+        <div className="new-order-summary">
+          <input
+            type="text"
+            placeholder="Table number (optional)"
+            value={tableNumber}
+            onChange={(e) => setTableNumber(e.target.value)}
+          />
+          <h3>Total: ${total.toFixed(2)}</h3>
+          <div className="new-order-payment-buttons">
+            <button onClick={() => placeOrder("cash")}>Pay Cash</button>
+          </div>
+        </div>
+
+        {/* ✅ Message Box */}
+        {message && (
+          <div
+            className={`new-order-message-box ${
+              message.type === "success"
+                ? "new-order-success"
+                : "new-order-error"
+            }`}
+          >
+            {message.text}
+          </div>
         )}
       </div>
-
-      {/* ✅ Order Summary */}
-      <div className="new-order-summary">
-        <input
-          type="text"
-          placeholder="Table number (optional)"
-          value={tableNumber}
-          onChange={(e) => setTableNumber(e.target.value)}
-        />
-        <h3>Total: ${total.toFixed(2)}</h3>
-        <div className="new-order-payment-buttons">
-          <button onClick={() => placeOrder("cash")}>Pay Cash</button>
-        </div>
-      </div>
-
-      {/* ✅ Message Box */}
-      {message && (
-        <div
-          className={`new-order-message-box ${
-            message.type === "success"
-              ? "new-order-success"
-              : "new-order-error"
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
     </div>
   );
 }
